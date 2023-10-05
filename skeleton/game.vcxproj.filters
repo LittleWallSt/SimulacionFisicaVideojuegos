@@ -24,6 +24,9 @@
     <ClInclude Include="RenderItems\particle.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\ProyectileLauncher.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -31,6 +34,9 @@
     </Filter>
     <Filter Include="RenderItems">
       <UniqueIdentifier>{fdaaaf4c-0e5d-4d68-9f05-50b435cd573d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{da17ab03-142c-4941-a693-4cda0c7dfa8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -9,12 +9,14 @@
 #include "callbacks.hpp"
 #include "RenderItems/particle.h"
 #include "RenderItems/particle.h"
+#include "Objects/ProyectileLauncher.h"
 #include <iostream>
 
 std::string display_text = "This is a test";
 
 
 using namespace physx;
+
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
@@ -31,6 +33,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 particle* parti;
+ProyectileLauncher* gun;
 
 
 // Initialize physics engine
@@ -57,7 +60,8 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	
-	parti = new particle(Vector3(), Vector3(0,0,5));
+	parti = new particle(Vector3(), Vector3(0,0,5), Vector3(0,0,10), Vector3(), 0.1f);
+	gun = new ProyectileLauncher();
 	}
 
 
@@ -71,6 +75,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 	parti->integrate(t);
+	gun->integrate(t);
 }
 
 // Function to clean data
@@ -96,6 +101,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
+	gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))
 	{
 	//case 'B': break;
