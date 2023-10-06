@@ -60,7 +60,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	
-	parti = new particle(Vector3(), Vector3(0,0,5), Vector3(0,0,10), Vector3(), 0.1f);
+	//parti = new particle(Vector3(), Vector3(0,0,5), Vector3(0,0,10), Vector3(), 0.1f);
 	gun = new ProyectileLauncher();
 	}
 
@@ -74,7 +74,7 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	parti->integrate(t);
+	//parti->integrate(t);
 	gun->integrate(t);
 }
 

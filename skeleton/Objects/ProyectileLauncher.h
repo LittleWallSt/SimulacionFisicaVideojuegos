@@ -48,7 +48,7 @@ public:
 			part->setPosition(camTransform.p);
 			part->setMass(200.0f); // 200.0 Kg // 8kg real
 			part->setVelocity(dir*50.0f); //50 m/s //250m/s real
-			part->setAcceleration(Vector3(0.0f, -1.0f, 0.0f));
+			part->setAcceleration(Vector3(0.0f, -10.0f, 0.0f));
 			part->setDamping(0.99f);
 
 			particles.push_back(part);
