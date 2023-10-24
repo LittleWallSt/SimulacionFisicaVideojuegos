@@ -10,6 +10,24 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>ParticleGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformParticleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianParticleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGenerator.cpp">
+      <Filter>ParticleGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderItems\particle.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderItems\firework.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -27,6 +45,21 @@
     <ClInclude Include="Objects\ProyectileLauncher.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleGenerator.h">
+      <Filter>ParticleGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>ParticleGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformParticleGenerator.h">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianParticleGenerator.h">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\firework.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -37,6 +70,12 @@
     </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{da17ab03-142c-4941-a693-4cda0c7dfa8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleGenerator">
+      <UniqueIdentifier>{71a37689-7957-4ff6-92e9-96fbdbd42252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleGenerator\Generators">
+      <UniqueIdentifier>{7aaf7503-11e7-4e8d-b8ac-0618d3838bb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

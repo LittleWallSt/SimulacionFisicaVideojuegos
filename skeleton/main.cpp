@@ -10,6 +10,8 @@
 #include "RenderItems/particle.h"
 #include "RenderItems/particle.h"
 #include "Objects/ProyectileLauncher.h"
+#include "ParticleGenerator.h"
+#include "ParticleSystem.h"
 #include <iostream>
 
 std::string display_text = "This is a test";
@@ -34,6 +36,9 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 particle* parti;
 ProyectileLauncher* gun;
+ParticleSystem* pSys;
+bool fromCamera = true;
+string cameraGen;
 
 
 // Initialize physics engine
@@ -60,9 +65,10 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	
-	//parti = new particle(Vector3(), Vector3(0,0,5), Vector3(0,0,10), Vector3(), 0.1f);
-	gun = new ProyectileLauncher();
-	}
+	parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
+	pSys = new ParticleSystem();
+
+}
 
 
 // Function to configure what happens in each step of physics
@@ -75,7 +81,14 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 	//parti->integrate(t);
-	gun->integrate(t);
+	//gun->integrate(t);
+	/*if (fromCamera) {
+		ParticleGenerator* g = pSys->getParticleGenerator(cameraGen);
+
+		g->setMeanPos(GetCamera()->getEye() + GetCamera()->getDir() * 10);
+		g->setMeanVel(GetCamera()->getDir() * 10);
+	}*/
+	pSys->update(t);
 }
 
 // Function to clean data
@@ -106,8 +119,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case ' ':
+	case 'B':
 	{
+		
 		break;
 	}
 	default:
