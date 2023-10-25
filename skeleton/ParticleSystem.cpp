@@ -3,15 +3,27 @@
 // Constructora
 ParticleSystem::ParticleSystem() {
 
-	// Generador de partículas amarillas redondas con distribucion normal
-	particle* model = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(125, 125, 0, 1), CreateShape(PxSphereGeometry(3)));
-	ParticleGenerator* ptGen = new GaussianParticleGenerator(Vector3(0), Vector3(35), 0.3, model, 10);
+	// Generador de partículas verdes redondas con distribucion normal
+	particle* model = new particle(10, Vector3(0), Vector3(0,0.0f,0), Vector3(0, 10, 0), 0.2, Vector4(1, 1, 0, 0), CreateShape(PxSphereGeometry(3)));
+	ParticleGenerator* ptGen = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(8), 0.3, model, 3);
+	ptGen->setRandomLifeTimeRange(1);
+	ptGen->setMinimumLifeTime(1);
+	ptGen->setName("Avispero");
 	_particle_generators.push_back(ptGen);
 
 	// Generador de partículas azules cuadradas con distribucion uniforme
-	model = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(0, 125, 125, 1), CreateShape(PxBoxGeometry(2, 2, 2)));
-	ptGen = new UniformParticleGenerator(Vector3(-150, 0, 0), Vector3(35), 0.3, model, 100);
+	model = new particle(10, Vector3(0), Vector3(0,100,0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
+	ptGen = new UniformParticleGenerator(Vector3(-150, 0, 0), Vector3(10,350,10), 0.3, model, 100);
+	ptGen->setName("Geyser");
 	_particle_generators.push_back(ptGen);
+
+
+	model = new particle(10, Vector3(0), Vector3(0, 100, 0), Vector3(0, 10, 0), 5, Vector4(1, 0, 0, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
+	ptGen = new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 3);
+	ptGen->setName("Circles");
+	ptGen->setMinimumLifeTime(7);
+	_particle_generators.push_back(ptGen);
+
 }
 
 // Destructora

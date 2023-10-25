@@ -37,8 +37,8 @@ ContactReportCallback gContactReportCallback;
 particle* parti;
 ProyectileLauncher* gun;
 ParticleSystem* pSys;
-bool fromCamera = true;
-string cameraGen;
+//bool fromCamera = true;
+//string cameraGen;
 
 
 // Initialize physics engine
@@ -114,14 +114,24 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	gun->OnKeyPress(key, camera, GetCamera()->getDir());
+	//gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))
 	{
 	//case 'B': break;
 	//case ' ':	break;
+	case 'G':
+	{
+		pSys->getParticleGenerator("Geyser")->setActive();
+		break;
+	}
+	case 'C':
+	{
+		pSys->getParticleGenerator("Circles")->setActive();
+		break;
+	}
 	case 'B':
 	{
-		
+		pSys->getParticleGenerator("Avispero")->setActive();
 		break;
 	}
 	default:

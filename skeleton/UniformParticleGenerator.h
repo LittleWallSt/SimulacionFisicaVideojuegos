@@ -19,8 +19,8 @@ private:
 	uniform_real_distribution<float>* pX;
 	uniform_real_distribution<float>* pY;
 	uniform_real_distribution<float>* pZ;
-
 	int _n_particles;
+	
 
 public:
 	// Constructora y destructora

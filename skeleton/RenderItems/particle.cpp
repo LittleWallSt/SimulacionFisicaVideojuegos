@@ -1,10 +1,11 @@
 #include "particle.h"
 
 // Constructora - Crea una particula definiendo todas sus propiedades
-particle::particle(float m, Vector3 p, Vector3 vel, Vector3 ac, int lTime, Vector4 col, PxShape* shp) :
+particle::particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Vector4 col, PxShape* shp) :
 	pos(p), gravity(Vector3(0, -10.0f, 0)) {
 	
-	startTime = GetLastTime();
+	lifeTime = lTime;
+	//startTime = GetLastTime();
 	setProperties(m, vel, ac, col, shp, lTime);
 	renderItem = new RenderItem(shape, &pos, color);
 }
@@ -13,7 +14,8 @@ particle::particle(float m, Vector3 p, Vector3 vel, Vector3 ac, int lTime, Vecto
 particle::particle(float m, Vector3 vel, Vector3 ac, Vector4 col, PxShape* shp) :
 	gravity(Vector3(0, -10.0f, 0)) {
 	
-	startTime = GetLastTime();
+	lifeTime = 1;
+	//startTime = GetLastTime();
 	setProperties(m, vel, ac, col, shp, 0);
 	renderItem = new RenderItem(shape, &pos, color);
 }
@@ -36,17 +38,20 @@ bool particle::integrate(double t) {
 	vel *= powf(damping, t);
 
 	// Eliminar tras lifeTime segundos
-	if (startTime + lifeTime < GetLastTime()) return false;
+	if (lifeTime < 0) return false;
 	
+	lifeTime -= t;
 	return true;
 }
 
 // Clona la partícula actual modificando velocidad, aceleración y tiempo de vida
 particle* particle::clone(Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime) const {
+	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
 	return new particle(mass, pos.p, newRanVel, newRanAccl, newLifeTime, color, shape);
 }
 
 // Clona la partícula actual modificando posición, velocidad, aceleración y tiempo de vida
 particle* particle::clone(Vector3 newPos, Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime) const {
+	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
 	return new particle(mass, newPos, newRanVel, newRanAccl, newLifeTime, color, shape);
 }

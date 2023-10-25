@@ -24,7 +24,12 @@ protected:
 	// Variables
 	Vector3 iniPos, meanVel, meanVar;
 	float probability;
+	bool active = false;
+	bool randomLifeTime = true;
+	int RandomLifeTimeRange = 10;
+	int minimumLifeTime = 3;
 
+	
 	// Generador de aleatorios
 	default_random_engine gen;
 
@@ -37,6 +42,13 @@ public:
 	virtual list<particle*> generateParticles() = 0;
 
 	// Getters y setters
-	inline void setParticle(particle* m) { model = m; }
-	inline string getName() { return name; }
+	inline void setParticle(particle* m) { model = m; };
+	inline void setRandomLifetime() { randomLifeTime = !randomLifeTime; };
+	inline void setRandomLifeTimeRange(int range) { RandomLifeTimeRange = range; };
+	inline void setMinimumLifeTime(int min) { minimumLifeTime = min; };
+	inline void setName(string newName) { name = newName; };
+
+
+	inline string getName() { return name; };
+	inline void setActive() { active = !active ; };
 };

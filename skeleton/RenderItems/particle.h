@@ -36,11 +36,23 @@ protected:
 	float mass, damping;
 
 	// Tiempo
-	float startTime, lifeTime;
+	double lifeTime;
 
 public:
 #pragma region Constructoras
-	particle(float m, Vector3 p, Vector3 vel, Vector3 ac, int lTime, Vector4 col, PxShape* shp);
+	particle* operator=(particle* const& other) {
+		this->vel = other->vel;
+		this->accl = other->accl;
+		this->gravity = other->gravity;
+		this->pos = other->pos;
+		this->mass = other->mass;
+		this->damping = other->damping;
+		this->color = other->color;
+		this->lifeTime = other->lifeTime;
+		this->renderItem = other->renderItem;
+
+	}
+	particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Vector4 col, PxShape* shp);
 	particle(float m, Vector3 vel, Vector3 ac, Vector4 col, PxShape* shp);
 	particle() :vel({ 0,0,0 }), accl{ (0,0,0) }, gravity({ 0,0,0 }), pos({ 0,0,0 }), mass(0), damping(0) {};
 
@@ -64,8 +76,9 @@ public:
 	bool integrate(double t);
 
 	// Clonar partícula
-	virtual particle* clone(Vector3 v, Vector3 acc, float lT) const;
-	virtual particle* clone(Vector3 p, Vector3 v, Vector3 acc, float lT) const;
+	virtual particle* clone(Vector3 v, Vector3 acc, float lT = -1) const;
+	virtual particle* clone(Vector3 p, Vector3 v, Vector3 acc, float lT = -1) const;
+	//virtual particle* clone();
 
 	// Getters y setters
 	void setProperties(float m, Vector3 v, Vector3 a, Vector4 c, PxShape* s, float l, float d = 0.998);
@@ -85,6 +98,7 @@ public:
 #pragma region Getters
 	inline Vector3 getVelocity() { return vel; }
 	inline Vector3 getAcceleration() { return accl; }
+	inline Vector3 getPos() { return pos.p; };
 
 	inline Vector4 getColor() { return color; }
 	inline PxShape* getShape() { return shape; }

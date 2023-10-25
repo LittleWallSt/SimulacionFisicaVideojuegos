@@ -28,6 +28,12 @@
     <ClCompile Include="RenderItems\firework.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="FireworkGenerator.cpp">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -59,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="RenderItems\firework.h">
       <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="FireworkGenerator.h">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleGenerator.h">
+      <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

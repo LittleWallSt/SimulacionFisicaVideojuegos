@@ -5,6 +5,7 @@
 #include "ParticleGenerator.h"
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
+#include "CircleGenerator.h"
 
 #pragma once
 
