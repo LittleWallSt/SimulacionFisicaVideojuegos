@@ -7,9 +7,7 @@
 
 class CircleGenerator : public ParticleGenerator {
 protected:
-	Vector3 _std_dev_vel, _std_dev_pos;
-	double _min_t, _max_t = 10;
-
+	
 	int _n_particles;
 
 public:

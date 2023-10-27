@@ -19,7 +19,7 @@ ParticleSystem::ParticleSystem() {
 
 
 	model = new particle(10, Vector3(0), Vector3(0, 100, 0), Vector3(0, 10, 0), 5, Vector4(1, 0, 0, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
-	ptG = new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 3);
+	ptG = new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 15);
 	ptG->setName("Circles");
 	ptG->setMinimumLifeTime(7);
 	_particle_generators.push_back(ptG);
