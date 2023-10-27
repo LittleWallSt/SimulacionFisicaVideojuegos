@@ -6,7 +6,7 @@
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "CircleGenerator.h"
-
+#include "FireworkGenerator.h"
 #pragma once
 
 
@@ -18,10 +18,11 @@ private:
 	// Listas de objetos
 	list<particle*> _particles;
 	list<ParticleGenerator*> _particle_generators;
-
-	// Vector de objetos a destruir
 	vector<list<particle*>::iterator> _particlesToDelete;
 
+	std::list<Firework*> fireworks_pool;
+	FireworkGenerator* fireworkGen;
+	std::vector<list<Firework*>::iterator> deadFireworks;
 public:
 	// Constructora y destructora
 	ParticleSystem();

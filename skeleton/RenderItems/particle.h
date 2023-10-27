@@ -33,7 +33,7 @@ protected:
 	// Properties
 	Vector3 vel, accl, gravity;
 	PxTransform pos;
-	float mass, damping;
+	float mass, damping, radius;
 
 	// Tiempo
 	double lifeTime;
@@ -55,6 +55,8 @@ public:
 	particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Vector4 col, PxShape* shp);
 	particle(float m, Vector3 vel, Vector3 ac, Vector4 col, PxShape* shp);
 	particle() :vel({ 0,0,0 }), accl{ (0,0,0) }, gravity({ 0,0,0 }), pos({ 0,0,0 }), mass(0), damping(0) {};
+
+	particle(Vector3 pose, Vector3 vel, Vector3 acc, float rad, Vector4 color, float lt, float dp = 0.998f);
 
 	//Constructora por casos //No funciona ahora nose muy bien pq
 	/*particle(particleType t) {
@@ -106,6 +108,7 @@ public:
 	inline float getLifeTime() { return lifeTime; }
 	inline float getMass() { return mass; }
 	inline float getDamping() { return damping; }
+	inline float getRadius() { return radius; };
 #pragma endregion
 
 	

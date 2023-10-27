@@ -4,16 +4,14 @@
 
 class GaussianParticleGenerator : public ParticleGenerator {
 private:
-	// Velocidad
 	normal_distribution<float>* vX;
 	normal_distribution<float>* vY;
 	normal_distribution<float>* vZ;
-
-	// Posición
 	normal_distribution<float>* pX;
 	normal_distribution<float>* pY;
 	normal_distribution<float>* pZ;
 
+	//numero de particulas a generar por update
 	int _n_particles;
 
 public:

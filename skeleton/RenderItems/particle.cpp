@@ -20,6 +20,14 @@ particle::particle(float m, Vector3 vel, Vector3 ac, Vector4 col, PxShape* shp) 
 	renderItem = new RenderItem(shape, &pos, color);
 }
 
+particle::particle(Vector3 pose, Vector3 v, Vector3 acc, float rad, Vector4 color, float lt, float dp) :
+	pos(pose), vel(v), accl(acc), damping(dp),
+	lifeTime(lt), radius(rad),
+	renderItem(new RenderItem(CreateShape(physx::PxSphereGeometry(rad)),
+		&pos, color)) {
+
+}
+
 // Destructora
 particle::~particle() {
 	renderItem->release();

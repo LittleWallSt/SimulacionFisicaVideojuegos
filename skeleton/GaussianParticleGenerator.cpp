@@ -26,27 +26,29 @@ GaussianParticleGenerator::~GaussianParticleGenerator() {
 	if (pX != nullptr) delete pX, pY, pZ;
 }
 
-// Genera partículas que se devuelven en la lista
+
 list<particle*> GaussianParticleGenerator::generateParticles() {
-	// Lista de partículas
+	// Lista de partículas a crear
 	list<particle*> prtcls;
 
-	// Generar según un aleatorio
 	
+	//si el generador esta activo
 	if (active) {
 		for (int i = 0; i < _n_particles; i++) {
 			float random = (rand() % 101) / 100.0f;
 			if (random < probability) {
 				// Variables aleatorias
 				Vector3 vel = Vector3((*vX)(gen), (*vY)(gen), (*vZ)(gen));
-				//Vector3 accl = Vector3(0);
+				
 				int lifeTime;
+				//si le ponemos una vida aleatoria
 				if (randomLifeTime) {
 					lifeTime = rand() % RandomLifeTimeRange + minimumLifeTime;
 				}
+				//sino se le pone -1 y ya el clone lo maneja
 				else lifeTime = -1;
 
-				// Crear partícula
+				// Crear partícula no en un generador no estatico
 				if (!staticGenerator) {
 					Vector3 pos = Vector3((*pX)(gen), (*pY)(gen), (*pZ)(gen));
 					prtcls.push_back(model->clone(pos, vel, model->getAcceleration(), lifeTime));

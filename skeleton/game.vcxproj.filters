@@ -34,6 +34,9 @@
     <ClCompile Include="CircleGenerator.cpp">
       <Filter>ParticleGenerator\Generators</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Particle2.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="CircleGenerator.h">
       <Filter>ParticleGenerator\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Particle2.h">
+      <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

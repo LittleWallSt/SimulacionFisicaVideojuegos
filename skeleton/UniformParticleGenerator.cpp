@@ -26,23 +26,23 @@ UniformParticleGenerator::~UniformParticleGenerator() {
 	if (pX != nullptr) delete pX, pY, pZ;
 }
 
-// Genera partículas que se devuelven en la lista
 list<particle*> UniformParticleGenerator::generateParticles() {
-	// Lista de partículas
+	// Lista de partículas a  invocar
 	list<particle*> prtcls;
 
-	// Generar según un aleatorio
+	//si esta activo el generador
 	if (active) {
 		for (int i = 0; i < _n_particles; i++) {
 			float random = (rand() % 101) / 100.0f;
 			if (random < probability) {
 				// Variables aleatorias
 				Vector3 vel = Vector3((*vX)(gen), (*vY)(gen), (*vZ)(gen));
-				//Vector3 accl = Vector3(0);
 				int lifeTime;
+				//si tiene probabilidad de vida
 				if (randomLifeTime) {
 					lifeTime = rand() % RandomLifeTimeRange + minimumLifeTime;
 				}
+				//sino se gestiona en clone
 				else lifeTime = -1;
 				
 

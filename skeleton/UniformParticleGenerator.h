@@ -10,15 +10,14 @@
 using namespace std;
 class UniformParticleGenerator : public ParticleGenerator {
 private:
-	// Velocidad
 	uniform_real_distribution<float>* vX;
 	uniform_real_distribution<float>* vY;
 	uniform_real_distribution<float>* vZ;
-
-	// Posición
 	uniform_real_distribution<float>* pX;
 	uniform_real_distribution<float>* pY;
 	uniform_real_distribution<float>* pZ;
+
+	//numero de particulas por update
 	int _n_particles;
 	
 

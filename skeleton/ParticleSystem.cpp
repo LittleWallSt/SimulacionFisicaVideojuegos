@@ -5,58 +5,81 @@ ParticleSystem::ParticleSystem() {
 
 	// Generador de partículas verdes redondas con distribucion normal
 	particle* model = new particle(10, Vector3(0), Vector3(0,0.0f,0), Vector3(0, 10, 0), 0.2, Vector4(1, 1, 0, 0), CreateShape(PxSphereGeometry(3)));
-	ParticleGenerator* ptGen = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(8), 0.3, model, 3);
-	ptGen->setRandomLifeTimeRange(1);
-	ptGen->setMinimumLifeTime(1);
-	ptGen->setName("Avispero");
-	_particle_generators.push_back(ptGen);
+	ParticleGenerator* ptG = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(8), 0.3, model, 3);
+	ptG->setRandomLifeTimeRange(1);
+	ptG->setMinimumLifeTime(1);
+	ptG->setName("Avispero");
+	_particle_generators.push_back(ptG);
 
 	// Generador de partículas azules cuadradas con distribucion uniforme
 	model = new particle(10, Vector3(0), Vector3(0,100,0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
-	ptGen = new UniformParticleGenerator(Vector3(-150, 0, 0), Vector3(10,350,10), 0.3, model, 100);
-	ptGen->setName("Geyser");
-	_particle_generators.push_back(ptGen);
+	ptG = new UniformParticleGenerator(Vector3(-150, 0, 0), Vector3(10,350,10), 0.3, model, 100);
+	ptG->setName("Geyser");
+	_particle_generators.push_back(ptG);
 
 
 	model = new particle(10, Vector3(0), Vector3(0, 100, 0), Vector3(0, 10, 0), 5, Vector4(1, 0, 0, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
-	ptGen = new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 3);
-	ptGen->setName("Circles");
-	ptGen->setMinimumLifeTime(7);
-	_particle_generators.push_back(ptGen);
+	ptG = new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 3);
+	ptG->setName("Circles");
+	ptG->setMinimumLifeTime(7);
+	_particle_generators.push_back(ptG);
+
+	//dos fireworks no reutilizables, se vera en un futuro si se implementa debido a que los static casts me mataron 
+	Firework* f1 = new Firework(Vector3(-50, 0, -100), Vector3(0, 40, 0), Vector3(0), Vector4(0, 1, 255, 1), 4.0f, 3, 8);
+	fireworks_pool.push_back(f1);
+
+	Firework* f2 = new Firework(Vector3(-200, 0, -300), Vector3(0, 40, 0), Vector3(0, -10, 0), Vector4(255, 1, 0, 1), 5.0f, 3, 7);
+	fireworks_pool.push_back(f2);
+
+	fireworkGen = new FireworkGenerator("Fireworks...", Vector3(5, 40, 5));
 
 }
 
 // Destructora
 ParticleSystem::~ParticleSystem() {
-	// Borrar generadores
 	for (ParticleGenerator* p : _particle_generators) delete p;
 	_particle_generators.clear();
 
-	// Borrar partículas
 	for (particle* p : _particles) delete p;
 	_particles.clear();
 }
 
 // Update
 void ParticleSystem::update(double t) {
-	// Actualizar generadores (generar partículas si procede)
 	for (ParticleGenerator* p : _particle_generators) {
 		list<particle*> prtcls = p->generateParticles();
 		if (!prtcls.empty()) _particles.splice(_particles.end(), prtcls);
 	}
 
-	// Actualizar partículas y añadir al vector de eliminación si han muerto
 	for (auto it = _particles.begin(); it != _particles.end(); it++) {
 		if (!(*it)->integrate(t)) _particlesToDelete.push_back(it);
 	}
 
-	// Eliminar las partículas guardadas en el vector de eliminación, borrándo también memoria
 	for (int i = 0; i < _particlesToDelete.size(); i++) {
 		particle* p = *_particlesToDelete[i];
 		_particles.erase(_particlesToDelete[i]);
 		delete p;
 	}
 	_particlesToDelete.clear();
+
+	for (auto it = fireworks_pool.begin(); it != fireworks_pool.end(); it++) {
+		if (!(*it)->integrate(t)) {
+			deadFireworks.push_back(it);
+		}
+	}
+
+	for (int i = 0; i < deadFireworks.size(); i++) {
+		if ((*deadFireworks[i])->getGeneration() > 1) {
+			list<Firework*> fs = fireworkGen->generateFireworks(*deadFireworks[i]);
+			if (!fireworks_pool.empty()) fireworks_pool.splice(fireworks_pool.end(), fs);
+		}
+		delete* deadFireworks[i];
+		fireworks_pool.erase(deadFireworks[i]);
+	}
+	deadFireworks.clear();
+
+
+
 }
 
 // Buscar y devolver un generador con el nombre recibido
@@ -71,6 +94,7 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(string name) {
 	return (*it);
 }
 
+//no me caes bien
 void ParticleSystem::generateFireworkSystem() {
 
 }
