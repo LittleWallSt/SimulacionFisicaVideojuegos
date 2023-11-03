@@ -18,6 +18,7 @@ ParticleSystem::ParticleSystem() {
 	_particle_generators.push_back(ptG);
 
 
+
 	model = new particle(10, Vector3(0), Vector3(0), Vector3(-5, 10, -5), 5, Vector4(1, 0, 0, 1), CreateShape(PxSphereGeometry( 1)));
 	CircleGenerator* ptC= new CircleGenerator(Vector3(1, 45, 1), Vector3(8), 0.3, model, 3);
 	ptC->setNparticles(16);

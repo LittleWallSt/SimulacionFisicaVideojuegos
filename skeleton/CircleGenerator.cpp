@@ -22,11 +22,13 @@ list<particle*> CircleGenerator::generateParticles() {
     if (active) {
         for (int i = 0; i < _n_particles; ++i) {
             auto part = model->clone(model->getPos(), model->getAcceleration(), model->getLifeTime());
-            generations.push_back(part);             
-            auto radians = (alpha * M_PI) / 180;
+
+            generations.push_back(part);
+            auto radians = (i * 360.0 / _n_particles) * (M_PI / 180.0);
             x = std::cos(radians);
             y = std::sin(radians);
-            alpha += (360.0 / _n_particles);
+            alpha += (360.0 / 30);
+
             part->setPos({ 10, 40 , 10 });
             part->setVelocity({ x * 20, y * 20, 0 });
             part->setLifeTime(minimumLifeTime);
