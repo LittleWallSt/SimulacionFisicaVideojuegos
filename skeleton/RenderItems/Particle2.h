@@ -16,22 +16,16 @@
 //clase de particula expresamente para ser heredada para el firework y futuras herencias
 //debido a que la mia original se rompe si se hace un static cast por razones que desconozco
 
-// Parametros de la particula
-// Posicion inicial, Velocidad inicial, tamaño inicial, color y tiempo de vida
-
 const Vector3 GRAVITY = Vector3(0, -10, 0);
 const float LIMIT = -50.0f;
 
 class Particle {
 protected:
-	// Parámetros de movimiento
 	Vector3 vel;
 	Vector3 acceleration;
 	float damping;
 
 	float lifeTime;
-	double startTime;
-
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 	float radious;

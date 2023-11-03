@@ -134,6 +134,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		pSys->getParticleGenerator("Avispero")->setActive();
 		break;
 	}
+	case 'F':{
+		pSys->spawnF();
+		break;
+
+	}
 	default:
 		break;
 	}

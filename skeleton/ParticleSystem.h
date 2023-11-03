@@ -23,6 +23,8 @@ private:
 	std::list<Firework*> fireworks_pool;
 	FireworkGenerator* fireworkGen;
 	std::vector<list<Firework*>::iterator> deadFireworks;
+
+	bool x = false;
 public:
 	// Constructora y destructora
 	ParticleSystem();
@@ -35,4 +37,6 @@ public:
 	ParticleGenerator* getParticleGenerator(string name);
 
 	void generateFireworkSystem();
+
+	void spawnF() { x = !x; }
 };
