@@ -7,6 +7,8 @@
 #include "GaussianParticleGenerator.h"
 #include "CircleGenerator.h"
 #include "FireworkGenerator.h"
+#include "ForceGenerator.h"
+#include "ParticleForceRegistry.h"
 #pragma once
 
 
@@ -24,6 +26,11 @@ private:
 	FireworkGenerator* fireworkGen;
 	std::vector<list<Firework*>::iterator> deadFireworks;
 
+	ParticleForceReg _registry;
+
+	int activeForce = 2;
+
+
 	bool x = false;
 public:
 	// Constructora y destructora
@@ -39,4 +46,6 @@ public:
 	void generateFireworkSystem();
 
 	void spawnF() { x = !x; }
+
+	void setActiveForce(int n) { activeForce = n; };
 };

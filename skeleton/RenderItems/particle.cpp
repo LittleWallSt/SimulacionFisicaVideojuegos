@@ -8,6 +8,10 @@ particle::particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Ve
 	//startTime = GetLastTime();
 	setProperties(m, vel, ac, col, shp, lTime);
 	renderItem = new RenderItem(shape, &pos, color);
+
+	force = { 0,0,0 };
+	
+	m > 0.0f ? unMass = 1.0f / m : unMass = 0.0f;
 }
 
 // Constructora - Crea una partícula sin especificar posición y tiempo de vida
@@ -18,6 +22,10 @@ particle::particle(float m, Vector3 vel, Vector3 ac, Vector4 col, PxShape* shp) 
 	//startTime = GetLastTime();
 	setProperties(m, vel, ac, col, shp, 0);
 	renderItem = new RenderItem(shape, &pos, color);
+
+	force = { 0,0,0 };
+	m > 0.0f ? unMass = 1.0f / m : unMass = 0.0f;
+
 }
 
 particle::particle(Vector3 pose, Vector3 v, Vector3 acc, float rad, Vector4 color, float lt, float dp) :
@@ -25,6 +33,8 @@ particle::particle(Vector3 pose, Vector3 v, Vector3 acc, float rad, Vector4 colo
 	lifeTime(lt), radius(rad),
 	renderItem(new RenderItem(CreateShape(physx::PxSphereGeometry(rad)),
 		&pos, color)) {
+	force = { 0,0,0 };
+
 
 }
 
@@ -41,14 +51,19 @@ void particle::setProperties(float m, Vector3 v, Vector3 a, Vector4 c, PxShape* 
 // Update
 bool particle::integrate(double t) {
 	// Actualizar físicas
-	pos.p += vel * t;
-	vel += (accl + gravity) * t;
-	vel *= powf(damping, t);
+	
+	if (unMass <= 0.0f) return false;
+
+
+	pos.p += this->vel * t;
+	accl += force * unMass;
+	vel = this->vel * pow(this->damping, t) + this->accl * t;
+	lifeTime -= t;
+	clearForce();//limpiamos la fuerza
 
 	// Eliminar tras lifeTime segundos
 	if (lifeTime < 0) return false;
 	
-	lifeTime -= t;
 	return true;
 }
 

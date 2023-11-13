@@ -33,7 +33,9 @@ protected:
 	// Properties
 	Vector3 vel, accl, gravity;
 	PxTransform pos;
-	float mass, damping, radius;
+	float unMass, mass, damping, radius;
+
+	Vector3 force;
 
 	// Tiempo
 	double lifeTime;
@@ -50,6 +52,7 @@ public:
 		this->color = other->color;
 		this->lifeTime = other->lifeTime;
 		this->renderItem = other->renderItem;
+		this->force = other->force;
 
 	}
 	particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Vector4 col, PxShape* shp);
@@ -85,9 +88,15 @@ public:
 	// Getters y setters
 	void setProperties(float m, Vector3 v, Vector3 a, Vector4 c, PxShape* s, float l, float d = 0.998);
 #pragma region setters
-	inline void setMass(float m) { mass = m; }
 	inline void setDamping(float d) { damping = d; }
 	inline void setLifeTime(float l) { lifeTime = l; }
+
+	virtual void setMass(float Mass) {
+		if (Mass <= 0) unMass = 0;
+		else unMass = 1 / Mass;
+
+		mass = Mass;
+	}
 	
 	inline void setPos(Vector3 p) { pos.p = p; }
 	inline void setVelocity(Vector3 v) { vel = v; }
@@ -106,10 +115,13 @@ public:
 	inline PxShape* getShape() { return shape; }
 
 	inline float getLifeTime() { return lifeTime; }
-	inline float getMass() { return mass; }
+	virtual float getMass() { return mass; };
+	virtual float getUnMass() { return unMass; };
 	inline float getDamping() { return damping; }
 	inline float getRadius() { return radius; };
 #pragma endregion
+	virtual void clearForce() { force *= 0; }
+	virtual void addForce(Vector3 f) { force += f; }
 
 	
 

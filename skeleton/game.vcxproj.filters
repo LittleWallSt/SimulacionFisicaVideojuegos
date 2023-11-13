@@ -37,6 +37,9 @@
     <ClCompile Include="RenderItems\Particle2.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="ForceGenerator.cpp">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -77,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="RenderItems\Particle2.h">
       <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceGenerator.h">
+      <Filter>ParticleGenerator\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceRegistry.h">
+      <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
