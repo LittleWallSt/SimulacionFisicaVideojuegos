@@ -34,6 +34,8 @@ list<particle*> UniformParticleGenerator::generateParticles() {
 	if (active) {
 		for (int i = 0; i < _n_particles; i++) {
 			float random = (rand() % 101) / 100.0f;
+			Vector4 color = model->getColor();
+
 			if (random < probability) {
 				// Variables aleatorias
 				Vector3 vel = Vector3((*vX)(gen), (*vY)(gen), (*vZ)(gen));
@@ -45,13 +47,20 @@ list<particle*> UniformParticleGenerator::generateParticles() {
 				//sino se gestiona en clone
 				else lifeTime = -1;
 				
+				if (randomColor) {
+					int value[3];
+					for (int k = 0; k < 3; k++) {
+						value[k] = rand() % 2;
+					}
+					color = Vector4(value[0], value[1], value[2], 1);
+				}
 
 				// Crear partícula
 				if (!staticGenerator) {
 					Vector3 pos = Vector3((*pX)(gen), (*pY)(gen), (*pZ)(gen));
-					prtcls.push_back(model->clone(pos, vel, model->getAcceleration(), lifeTime));
+					prtcls.push_back(model->clone(pos, vel, model->getAcceleration(), lifeTime, color));
 				}
-				else prtcls.push_back(model->clone(vel, model->getAcceleration(), lifeTime));
+				else prtcls.push_back(model->clone(vel, model->getAcceleration(), lifeTime, color));
 			}
 		}
 	}

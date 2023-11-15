@@ -39,6 +39,7 @@ list<particle*> GaussianParticleGenerator::generateParticles() {
 			if (random < probability) {
 				// Variables aleatorias
 				Vector3 vel = Vector3((*vX)(gen), (*vY)(gen), (*vZ)(gen));
+				Vector4 color = model->getColor();
 				
 				int lifeTime;
 				//si le ponemos una vida aleatoria
@@ -48,12 +49,20 @@ list<particle*> GaussianParticleGenerator::generateParticles() {
 				//sino se le pone -1 y ya el clone lo maneja
 				else lifeTime = -1;
 
+				if (randomColor) {
+					int value[3];
+					for (int k = 0; k < 3; k++) {
+						value[k] = rand() % 255;
+					}
+					color = Vector4(value[0], value[1], value[2], 1);
+				}
+
 				// Crear partícula no en un generador no estatico
 				if (!staticGenerator) {
 					Vector3 pos = Vector3((*pX)(gen), (*pY)(gen), (*pZ)(gen));
-					prtcls.push_back(model->clone(pos, vel, model->getAcceleration(), lifeTime));
+					prtcls.push_back(model->clone(pos, vel, model->getAcceleration(), lifeTime, color));
 				}
-				else prtcls.push_back(model->clone(vel, model->getAcceleration(), lifeTime));
+				else prtcls.push_back(model->clone(vel, model->getAcceleration(), lifeTime, color));
 			}
 		}
 	}

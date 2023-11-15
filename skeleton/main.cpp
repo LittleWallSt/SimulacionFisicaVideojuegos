@@ -14,7 +14,7 @@
 #include "ParticleSystem.h"
 #include <iostream>
 
-std::string display_text = "This is a test";
+std::string display_text = "O:";
 
 
 using namespace physx;
@@ -118,6 +118,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		pSys->getParticleGenerator("Geyser")->setActive();
 		break;
 	}
+	case 'P':
+	{
+		pSys->getParticleGenerator("GeyserINV")->setActive();
+		break;
+	}
 	case 'C':
 	{
 		pSys->getParticleGenerator("Circles")->setActive();
@@ -133,6 +138,31 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 
 	}
+	case '1': {
+		pSys->setActiveForce(0);
+		break;
+	}
+	case '2': {
+		pSys->setActiveForce(1);
+
+		break;
+	}
+	case '3': {
+		pSys->setActiveForce(2);
+
+		break;
+	}
+	case '4': {
+		pSys->setActiveForce(3);
+
+		break;
+	}
+	case '5': {
+		pSys->setActiveForce(4);
+
+		break;
+	}
+
 	default:
 		break;
 	}

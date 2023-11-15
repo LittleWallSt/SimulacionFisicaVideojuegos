@@ -14,7 +14,7 @@
 
 
 using namespace std;
-
+const int N_FORCES = 5;
 class ParticleSystem {
 private:
 	// Listas de objetos
@@ -29,7 +29,7 @@ private:
 	ParticleForceReg _registry;
 
 	int activeForce = 2;
-
+	bool forcesActive[N_FORCES] = { false, false, false, false, false };
 
 	bool x = false;
 public:
@@ -47,5 +47,5 @@ public:
 
 	void spawnF() { x = !x; }
 
-	void setActiveForce(int n) { activeForce = n; };
+	void setActiveForce(int n) { forcesActive[n] = !forcesActive[n]; };
 };

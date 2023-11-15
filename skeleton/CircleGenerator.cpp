@@ -21,7 +21,15 @@ list<particle*> CircleGenerator::generateParticles() {
     float x, y;
     if (active) {
         for (int i = 0; i < _n_particles; ++i) {
-            auto part = model->clone(model->getPos(), model->getAcceleration(), model->getLifeTime());
+            Vector4 color = model->getColor();
+            if (randomColor) {
+                int value[3];
+                for (int k = 0; k < 3; k++) {
+                    value[k] = rand() % 255;
+                }
+                color = Vector4(value[0], value[1], value[2], 1);
+            }
+            auto part = model->clone(model->getPos(), model->getAcceleration(), model->getLifeTime(), color);
 
             generations.push_back(part);
             auto radians = (i * 360.0 / _n_particles) * (M_PI / 180.0);

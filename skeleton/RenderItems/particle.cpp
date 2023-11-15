@@ -55,9 +55,10 @@ bool particle::integrate(double t) {
 	if (unMass <= 0.0f) return false;
 
 
-	pos.p += this->vel * t;
-	accl += force * unMass;
-	vel = this->vel * pow(this->damping, t) + this->accl * t;
+	pos.p += vel * t;
+	Vector3 resultingAccel = force * unMass;
+	vel += resultingAccel * t;
+	vel *= powf(damping, t);
 	lifeTime -= t;
 	clearForce();//limpiamos la fuerza
 
@@ -68,13 +69,13 @@ bool particle::integrate(double t) {
 }
 
 // Clona la partícula actual modificando velocidad, aceleración y tiempo de vida
-particle* particle::clone(Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime) const {
+particle* particle::clone(Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour) const {
 	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
-	return new particle(mass, pos.p, newRanVel, newRanAccl, newLifeTime, color, shape);
+	return new particle(mass, pos.p, newRanVel, newRanAccl, newLifeTime, colour, shape);
 }
 
 // Clona la partícula actual modificando posición, velocidad, aceleración y tiempo de vida
-particle* particle::clone(Vector3 newPos, Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime) const {
+particle* particle::clone(Vector3 newPos, Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour) const {
 	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
-	return new particle(mass, newPos, newRanVel, newRanAccl, newLifeTime, color, shape);
+	return new particle(mass, newPos, newRanVel, newRanAccl, newLifeTime, colour, shape);
 }

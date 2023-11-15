@@ -30,7 +30,13 @@ public:
 			fg = new WindForceGen(Vector3(  100.0, 1.0, 100.0 ), 0.1, 0.2, Vector3(0.0, 10.0, 0.0), 50, 50, 50);
 			break;
 		case 3:
-			fg = new TornadoForceGen(Vector3(-20, 0, 0), 1, 0.1, 0.75);
+			fg = new TornadoForceGen(Vector3(-50, 100, 0), 1, 1, 1);
+			break;
+		case 4:
+			fg = new DragForceGen(200, 0);
+			break;
+		case 5:
+			fg = new GravForceGen(Vector3(0, 40, 0), 100);
 			break;
 		default:
 			return;

@@ -22,12 +22,14 @@ protected:
 
 class DragForceGen : public ForceGen {
 public:
-	DragForceGen(float k) : k(k) {};
+	DragForceGen(float k1, float k2);
 	virtual ~DragForceGen() {};
 	void updateForce(particle* particle, double duration) override;
 protected:
-	float k;
+	float _k1; // Coeficiente velocidad
+	float _k2;
 };
+
 
 class WindForceGen : public ForceGen {
 public:
@@ -47,7 +49,7 @@ protected:
 
 class TornadoForceGen : public WindForceGen {
 public:
-	TornadoForceGen(Vector3 center, float k1, float k2, float kt) : WindForceGen(Vector3(0), k1, k2), _center(center), _Kt(kt) {};
+	TornadoForceGen(Vector3 center, float k1, float k2, float kt) : WindForceGen(Vector3(0), k1, k2, center, INT_MAX, INT_MAX, INT_MAX), _center(center), _Kt(kt) {};
 	~TornadoForceGen() {};
 	void updateForce(particle* particle, double duration) override;
 protected:

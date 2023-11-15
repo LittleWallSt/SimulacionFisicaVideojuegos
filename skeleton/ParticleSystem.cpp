@@ -14,8 +14,9 @@ ParticleSystem::ParticleSystem() {
 
 	// Generador de partículas azules cuadradas con distribucion uniforme
 	model = new particle(100, Vector3(0), Vector3(0,100,0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
-	ptG = new UniformParticleGenerator(Vector3(-150, 0, 0), Vector3(10,350,10), 0.3, model, 100);
+	ptG = new UniformParticleGenerator(Vector3(-50, 0, 0), Vector3(10,100,10), 0.3, model, 100, false);
 	ptG->setName("Geyser");
+	ptG->setRandomColor();
 	_particle_generators.push_back(ptG);
 
 
@@ -28,11 +29,11 @@ ParticleSystem::ParticleSystem() {
 	_particle_generators.push_back(ptC);
 
 	//dos fireworks no reutilizables, se vera en un futuro si se implementa debido a que los static casts me mataron 
-	Firework* f1 = new Firework(Vector3(-50, 0, -100), Vector3(0, 60, 0), Vector3(0), Vector4(0, 1, 255, 1), 4.0f, 4, 8);
+	/*Firework* f1 = new Firework(Vector3(-50, 0, -100), Vector3(0, 60, 0), Vector3(0), Vector4(0, 1, 255, 1), 4.0f, 4, 8);
 	fireworks_pool.push_back(f1);
 
 	Firework* f2 = new Firework(Vector3(-200, 0, -300), Vector3(0, 60, 0), Vector3(0, -10, 0), Vector4(255, 1, 0, 1), 5.0f, 4, 7);
-	fireworks_pool.push_back(f2);
+	fireworks_pool.push_back(f2);*/
 
 	fireworkGen = new FireworkGenerator("Fireworks...", Vector3(10, 30, 10));
 
@@ -63,7 +64,9 @@ void ParticleSystem::update(double t) {
 	for (ParticleGenerator* p : _particle_generators) {
 		list<particle*> prtcls = p->generateParticles();
 		for (auto p : prtcls) {
-			_registry.addReg(activeForce, p);
+			for (int i = 0; i < N_FORCES; i++) {
+				if(forcesActive[i]) _registry.addReg(i+1, p);
+			}
 		}
 
 		if (!prtcls.empty()) _particles.splice(_particles.end(), prtcls);

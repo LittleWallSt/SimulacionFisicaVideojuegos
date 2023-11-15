@@ -28,7 +28,7 @@ protected:
 	bool randomLifeTime = true;
 	int RandomLifeTimeRange = 10;
 	int minimumLifeTime = 3;
-
+	bool randomColor = false;
 	
 	// Generador de aleatorios
 	default_random_engine gen;
@@ -47,6 +47,7 @@ public:
 	inline void setRandomLifeTimeRange(int range) { RandomLifeTimeRange = range; };
 	inline void setMinimumLifeTime(int min) { minimumLifeTime = min; };
 	inline void setName(string newName) { name = newName; };
+	inline void setRandomColor() { randomColor = !randomColor; };
 
 
 	inline string getName() { return name; };
