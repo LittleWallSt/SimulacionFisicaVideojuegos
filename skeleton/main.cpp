@@ -37,8 +37,7 @@ ContactReportCallback gContactReportCallback;
 particle* parti;
 ProyectileLauncher* gun;
 ParticleSystem* pSys;
-//bool fromCamera = true;
-//string cameraGen;
+
 
 
 // Initialize physics engine
@@ -82,12 +81,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 	//parti->integrate(t);
 	//gun->integrate(t);
-	/*if (fromCamera) {
-		ParticleGenerator* g = pSys->getParticleGenerator(cameraGen);
-
-		g->setMeanPos(GetCamera()->getEye() + GetCamera()->getDir() * 10);
-		g->setMeanVel(GetCamera()->getDir() * 10);
-	}*/
+	
 	pSys->update(t);
 }
 
