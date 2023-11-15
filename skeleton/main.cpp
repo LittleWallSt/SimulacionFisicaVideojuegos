@@ -64,7 +64,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	
-	parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
+	//parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
 	pSys = new ParticleSystem();
 
 }
@@ -159,6 +159,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case '5': {
 		pSys->setActiveForce(4);
+
+		break;
+	}
+	case '6': {
+		pSys->explode();
+		pSys->setActiveForce(5);
 
 		break;
 	}

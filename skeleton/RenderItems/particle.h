@@ -31,7 +31,7 @@ protected:
 	Vector4 color;
 
 	// Properties
-	Vector3 vel, accl, gravity;
+	Vector3 vel, accl, gravity, iniPos, limits;
 	PxTransform pos;
 	float unMass, mass, damping, radius;
 

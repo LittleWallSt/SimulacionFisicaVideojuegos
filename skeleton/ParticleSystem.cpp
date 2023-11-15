@@ -5,17 +5,26 @@
 ParticleSystem::ParticleSystem() {
 
 	// Generador de partículas verdes redondas con distribucion normal
-	particle* model = new particle(100, Vector3(0), Vector3(0,0.0f,0), Vector3(0, 10, 0), 0.2, Vector4(1, 1, 0, 0), CreateShape(PxSphereGeometry(3)));
-	ParticleGenerator* ptG = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(30, 50 ,30), 0.3, model, 3);
+	particle* model = new particle(100, Vector3(0), Vector3(0,0.0f,0), Vector3(0, 0, 0), 0.2, Vector4(1, 1, 0, 0), CreateShape(PxSphereGeometry(3)));
+	ParticleGenerator* ptG = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(1, 1 ,1), 0.3, model, 3, true);
 	ptG->setRandomLifeTimeRange(2);
+	ptG->setRandomColor();
 	ptG->setMinimumLifeTime(5);
 	ptG->setName("Avispero");
 	_particle_generators.push_back(ptG);
 
 	// Generador de partículas azules cuadradas con distribucion uniforme
-	model = new particle(100, Vector3(0), Vector3(0,100,0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
-	ptG = new UniformParticleGenerator(Vector3(-50, 0, 0), Vector3(10,100,10), 0.3, model, 100, false);
+	model = new particle(100, Vector3(0), Vector3(0,50,0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
+	ptG = new UniformParticleGenerator(Vector3(-200, -300, 0), Vector3(10,100,10), 0.3, model, 20, true);
 	ptG->setName("Geyser");
+	ptG->setRandomColor();
+	ptG->setMinimumLifeTime(15);
+	_particle_generators.push_back(ptG);
+
+	// Generador de partículas azules cuadradas con distribucion uniforme
+	model = new particle(100, Vector3(0), Vector3(0, -50, 0), Vector3(0), 5, Vector4(0, 125, 1, 1), CreateShape(PxBoxGeometry(1, 1, 1)));
+	ptG = new UniformParticleGenerator(Vector3(-200, 500, 0), Vector3(10, 80, 10), 0.3, model, 20, true);
+	ptG->setName("GeyserINV");
 	ptG->setRandomColor();
 	_particle_generators.push_back(ptG);
 
@@ -46,6 +55,7 @@ ParticleSystem::~ParticleSystem() {
 
 	for (particle* p : _particles) delete p;
 	_particles.clear();
+
 }
 
 // Update
@@ -73,9 +83,16 @@ void ParticleSystem::update(double t) {
 	}
 
 	for (auto it = _particles.begin(); it != _particles.end(); it++) {
-		
+		//si hay una explosion por hacerlo mas dramatico
+		if (explosion) {
+			_registry.addReg(6, *it);
+		}
 		if (!(*it)->integrate(t)) _particlesToDelete.push_back(it);
+		
 	}
+
+	//si ya se ha producido la explosion paramos
+	if (explosion) explosion = false;
 
 	_registry.updateForces(t);
 

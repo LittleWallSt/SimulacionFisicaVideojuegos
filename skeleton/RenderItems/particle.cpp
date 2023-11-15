@@ -12,6 +12,9 @@ particle::particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Ve
 	force = { 0,0,0 };
 	
 	m > 0.0f ? unMass = 1.0f / m : unMass = 0.0f;
+
+	limits = { 1000, 1000, 1000 };
+	iniPos = pos.p;
 }
 
 // Constructora - Crea una partícula sin especificar posición y tiempo de vida
@@ -64,6 +67,14 @@ bool particle::integrate(double t) {
 
 	// Eliminar tras lifeTime segundos
 	if (lifeTime < 0) return false;
+	
+	//eliminar si se sale de los limites
+	else if (!(pos.p.y < limits.y + iniPos.y
+		&& pos.p.y > -limits.y + iniPos.y
+		&& pos.p.x < limits.x + iniPos.x
+		&& pos.p.x > -limits.x + iniPos.x
+		&& pos.p.z < limits.z + iniPos.z
+		&& pos.p.z > -limits.z + iniPos.z)) return false;
 	
 	return true;
 }

@@ -52,7 +52,7 @@ list<particle*> GaussianParticleGenerator::generateParticles() {
 				if (randomColor) {
 					int value[3];
 					for (int k = 0; k < 3; k++) {
-						value[k] = rand() % 255;
+						value[k] = rand() % 2;
 					}
 					color = Vector4(value[0], value[1], value[2], 1);
 				}
