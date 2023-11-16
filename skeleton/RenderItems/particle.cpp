@@ -80,13 +80,13 @@ bool particle::integrate(double t) {
 }
 
 // Clona la partícula actual modificando velocidad, aceleración y tiempo de vida
-particle* particle::clone(Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour) const {
+particle* particle::clone(Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour, float mass) const {
 	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
-	return new particle(mass, pos.p, newRanVel, newRanAccl, newLifeTime, colour, shape);
+	return new particle(mass != 0.0f? mass: this->mass, pos.p, newRanVel, newRanAccl, newLifeTime, colour, shape);
 }
 
 // Clona la partícula actual modificando posición, velocidad, aceleración y tiempo de vida
-particle* particle::clone(Vector3 newPos, Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour) const {
+particle* particle::clone(Vector3 newPos, Vector3 newRanVel, Vector3 newRanAccl, float newLifeTime, Vector4 colour, float mass) const {
 	if (newLifeTime < 0) { newLifeTime = this->lifeTime; }
-	return new particle(mass, newPos, newRanVel, newRanAccl, newLifeTime, colour, shape);
+	return new particle(mass != 0.0f? mass :this->mass, newPos, newRanVel, newRanAccl, newLifeTime, colour, shape);
 }

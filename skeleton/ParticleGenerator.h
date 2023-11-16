@@ -29,7 +29,10 @@ protected:
 	int RandomLifeTimeRange = 10;
 	int minimumLifeTime = 3;
 	bool randomColor = false;
-	
+	bool randomMass = false;
+	int randomMassRange = 1;
+	int minimumMass = 10;
+
 	// Generador de aleatorios
 	default_random_engine gen;
 
@@ -43,11 +46,17 @@ public:
 
 	// Getters y setters
 	inline void setParticle(particle* m) { model = m; };
+	
 	inline void setRandomLifetime() { randomLifeTime = !randomLifeTime; };
 	inline void setRandomLifeTimeRange(int range) { RandomLifeTimeRange = range; };
 	inline void setMinimumLifeTime(int min) { minimumLifeTime = min; };
+	
 	inline void setName(string newName) { name = newName; };
 	inline void setRandomColor() { randomColor = !randomColor; };
+	
+	inline void setRandomMass() { randomMass = !randomMass; };
+	inline void setMinimumMass(int min) { minimumMass = min; };
+	inline void setRandomMassRange(int range) { randomMassRange = range; };
 
 
 	inline string getName() { return name; };

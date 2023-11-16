@@ -63,7 +63,7 @@ void DragForceGen::updateForce(particle* particle, double duration)
 	if (fabs(particle->getUnMass()) < 1e-10)
 		return;
 
-	//funcion para parar la particula por fuerza de rozamiento
+	//formula para parar la particula por drag
 	Vector3 v = particle->getVelocity();
 	float dragCoef = v.normalize();
 	Vector3 dragForce;

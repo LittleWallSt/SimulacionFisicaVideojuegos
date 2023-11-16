@@ -40,6 +40,8 @@ list<particle*> UniformParticleGenerator::generateParticles() {
 				// Variables aleatorias
 				Vector3 vel = Vector3((*vX)(gen), (*vY)(gen), (*vZ)(gen));
 				int lifeTime;
+				float mass = model->getMass();
+
 				//si tiene probabilidad de vida
 				if (randomLifeTime) {
 					lifeTime = rand() % RandomLifeTimeRange + minimumLifeTime;
@@ -53,6 +55,9 @@ list<particle*> UniformParticleGenerator::generateParticles() {
 						value[k] = rand() % 2;
 					}
 					color = Vector4(value[0], value[1], value[2], 1);
+				}
+				if (randomMass) {
+					mass = rand() % randomMassRange + minimumMass;
 				}
 
 				// Crear partícula

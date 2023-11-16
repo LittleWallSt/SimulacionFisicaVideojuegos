@@ -9,7 +9,10 @@ ParticleSystem::ParticleSystem() {
 	ParticleGenerator* ptG = new GaussianParticleGenerator(Vector3(1, 45 , 1), Vector3(1, 1 ,1), 0.3, model, 3, true);
 	ptG->setRandomLifeTimeRange(2);
 	ptG->setRandomColor();
-	ptG->setMinimumLifeTime(5);
+	ptG->setMinimumLifeTime(20);
+	ptG->setRandomMass();
+	ptG->setMinimumMass(1);
+	ptG->setRandomMassRange(2);
 	ptG->setName("Avispero");
 	_particle_generators.push_back(ptG);
 
@@ -75,7 +78,7 @@ void ParticleSystem::update(double t) {
 		list<particle*> prtcls = p->generateParticles();
 		for (auto p : prtcls) {
 			for (int i = 0; i < N_FORCES; i++) {
-				if(forcesActive[i]) _registry.addReg(i+1, p);
+				if(forcesActive[i] && i != EXPLOSION) _registry.addReg(i+1, p);
 			}
 		}
 

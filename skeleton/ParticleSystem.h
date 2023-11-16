@@ -15,6 +15,7 @@
 
 using namespace std;
 const int N_FORCES = 6;
+const int EXPLOSION = 5;
 class ParticleSystem {
 private:
 	// Listas de objetos

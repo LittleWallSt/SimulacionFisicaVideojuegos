@@ -81,8 +81,8 @@ public:
 	bool integrate(double t);
 
 	// Clonar partícula
-	virtual particle* clone(Vector3 v, Vector3 acc,  float lT = -1, Vector4 color  = Vector4()) const;
-	virtual particle* clone(Vector3 p, Vector3 v, Vector3 acc, float lT = -1, Vector4 color = Vector4()) const;
+	virtual particle* clone(Vector3 v, Vector3 acc,  float lT = -1, Vector4 color  = Vector4(), float mass = 0) const;
+	virtual particle* clone(Vector3 p, Vector3 v, Vector3 acc, float lT = -1, Vector4 color = Vector4(), float mass = 0.0f) const;
 	//virtual particle* clone();
 
 	// Getters y setters
