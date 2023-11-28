@@ -108,3 +108,73 @@ void ExplosionGen::updateForce(particle* particle, double t)
 	
 }
 
+SpringForceGen::SpringForceGen(particle* other, float k, float resting_length) : _other(other), _k(k), _resting_length(resting_length)
+{
+}
+
+void SpringForceGen::updateForce(particle* p, double duration)
+{
+	if (fabs(p->getUnMass()) <= 0.0f) return;
+
+	Vector3 f = _other->getPos() - p->getPos();
+
+	const float length = f.normalize();
+	const float delta_x = length - _resting_length;
+
+	f *= delta_x * _k / duration;
+
+	p->addForce(f);
+}
+
+AnchoredSpringFG::AnchoredSpringFG( Vector3& position, float k, float resting_length) :
+	SpringForceGen(nullptr, k, resting_length)
+{
+	_other = new particle(100, position, { 0,0,0 }, { 0,0,0 }, -300,  {1, 1, 1, 1}, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+}
+
+AnchoredSpringFG::~AnchoredSpringFG()
+{
+	delete _other;
+}
+
+BungeeForceGen::BungeeForceGen(particle* other, float k, float resting_length) :
+	SpringForceGen(other, k, resting_length) {}
+
+void BungeeForceGen::updateForce(particle* p, double duration)
+{
+	if (fabs(p->getUnMass()) <= 0.0f) return;
+
+	Vector3 f = _other->getPos() - p->getPos();
+
+	const float length = f.normalize();
+	const float delta_x = length - _resting_length;
+
+	if (delta_x <= 0.0f) return;
+
+	f *= delta_x * _k;
+
+	p->addForce(f);
+}
+
+BuoyancyForceGen::BuoyancyForceGen(float height, float V, float d, particle* liquid_surface) :
+	_height(height), _volume(V), _density(d), _liquid_particle(liquid_surface)
+{
+}
+
+void BuoyancyForceGen::updateForce(particle* p, double duration)
+{
+	if (fabs(p->getUnMass()) <= 0.0f) return;
+
+	float h = p->getPos().y;
+	float h0 = _liquid_particle->getPos().y;
+
+	Vector3 f(0, 0, 0);
+	float immersed = 0.0;
+	if (h0 - h > _height * 0.5) immersed = 1.0;
+	else if (h - h0 > _height * 0.5) immersed = 0.0;
+	else immersed = (h0 - h) / _height + 0.5;
+
+	f.y = _density * _volume * immersed*9.8;
+	p->addForce(f);
+}
+

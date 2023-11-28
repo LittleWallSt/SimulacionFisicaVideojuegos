@@ -87,3 +87,41 @@ protected:
 
 	bool _enabled = false;
 };
+
+class SpringForceGen : public ForceGen {
+public:
+	SpringForceGen(particle* other, float k, float resting_length);
+	virtual ~SpringForceGen() {};
+	void updateForce(particle* p, double duration) override;
+
+protected:
+	float _k;
+	float _resting_length;
+	particle* _other;
+};
+
+class AnchoredSpringFG : public SpringForceGen {
+public:
+	AnchoredSpringFG(Vector3& position, float k, float resting_length);
+	virtual ~AnchoredSpringFG();
+};
+
+class BungeeForceGen : public SpringForceGen {
+public:
+	BungeeForceGen(particle* other, float k, float resting_length);
+	virtual ~BungeeForceGen() {};
+	void updateForce(particle* p, double duration) override;
+};
+
+class BuoyancyForceGen : public ForceGen {
+public:
+	BuoyancyForceGen(float height, float V, float d, particle* liquid_surface);
+	virtual ~BuoyancyForceGen() {};
+	void updateForce(particle* p, double duration) override;
+
+protected:
+	float _height;
+	float _volume;
+	float _density;
+	particle* _liquid_particle;
+};

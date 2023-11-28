@@ -62,11 +62,11 @@ bool particle::integrate(double t) {
 	Vector3 resultingAccel = force * unMass;
 	vel += resultingAccel * t;
 	vel *= powf(damping, t);
-	lifeTime -= t;
+	if(lifeTime > -300) lifeTime -= t;
 	clearForce();//limpiamos la fuerza
 
 	// Eliminar tras lifeTime segundos
-	if (lifeTime < 0) return false;
+	if (lifeTime < 0 && lifeTime> -300) return false;
 	
 	//eliminar si se sale de los limites
 	else if (!(pos.p.y < limits.y + iniPos.y

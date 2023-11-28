@@ -52,4 +52,60 @@ public:
 	void explode() { explosion = !explosion; };
 
 	void setActiveForce(int n) { forcesActive[n] = !forcesActive[n]; };
+
+	void AnchSpringGen() {
+		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 1, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+			//new particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 5, 1e10);
+		
+		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(-10, 50, 0), 2, 5);
+		_registry.addReg(spring, p);
+		
+		DragForceGen* drag = new DragForceGen(0.5f, 0);
+		_registry.addReg(drag, p);
+		
+		_particles.push_back(p);
+	}
+
+	void SpringGen() {
+		particle* p1 = new particle(10, { 10,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,1,0}, CreateShape(PxBoxGeometry(1,1,1)));
+		particle* p2 = new particle(10, { -10, 10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,1,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+		
+		SpringForceGen* spring1 = new SpringForceGen(p1, 2, 5);
+		SpringForceGen* spring2 = new SpringForceGen(p2, 2, 5);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p1);
+		
+		DragForceGen* drag = new DragForceGen(0.5, 0);
+		_registry.addReg(drag, p1);
+		_registry.addReg(drag, p2);
+		_particles.push_back(p1);
+		_particles.push_back(p2);
+	}
+
+	void BungeeGen() {
+		particle* p1 = new particle(10, { 10,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,0,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+		particle* p2 = new particle(10, { -10,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,0,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+		BungeeForceGen* spring1 = new BungeeForceGen(p1, 2, 10);
+		BungeeForceGen* spring2 = new BungeeForceGen(p2, 2, 10);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p1);
+		DragForceGen* drag = new DragForceGen(0.05, 0);
+		_registry.addReg(drag, p1);
+		_registry.addReg(drag, p2);
+		_particles.push_back(p1);
+		_particles.push_back(p2);
+	}
+
+	void BuoyancyGen() {
+		particle* liquid = new particle(0, { 0, 0, 0 }, { 0,0,0 }, { 0,0,0}, -300, Vector4(0, 0, 0.3, 0),CreateShape(PxBoxGeometry(20, 2, 20)));
+		particle* p = new  particle(10, { 0, 20, 0 }, Vector3(0, 0.0f, 0), Vector3(0, 0, 0), -300, Vector4(1, 1, 0, 0), CreateShape(PxBoxGeometry(3, 3, 3)));
+			//particle(10, { 1, 40, 1 }, { 0,0,0 }, { 0,0,0,0 }, CreateShape(PxBoxGeometry(3, 3, 3)));
+		p->setDamping(0.99);
+
+		BuoyancyForceGen* bg = new BuoyancyForceGen(5, 27, 1, liquid);
+		GravForceGen* gg = new GravForceGen(Vector3(0, -9.8, 0), 0);
+		_registry.addReg(bg, p);
+		_registry.addReg(gg, p);
+		_particles.push_back(p);
+	}
 };
