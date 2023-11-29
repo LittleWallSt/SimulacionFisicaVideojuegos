@@ -54,15 +54,74 @@ public:
 	void setActiveForce(int n) { forcesActive[n] = !forcesActive[n]; };
 
 	void AnchSpringGen() {
-		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 1, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
 			//new particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 5, 1e10);
 		
-		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(-10, 50, 0), 2, 5);
+		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(0, 70, 0), 1, 5);
 		_registry.addReg(spring, p);
 		
-		DragForceGen* drag = new DragForceGen(0.5f, 0);
+		DragForceGen* drag = new DragForceGen(1.5f, 0);
+		GravForceGen* grav = new GravForceGen(Vector3(0, -9.8, 0), 100);
 		_registry.addReg(drag, p);
+		_registry.addReg(grav, p);
+		_particles.push_back(p);
+	}
+
+	void SlinkyGen() {
+		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+		//new particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 5, 1e10);
+
+		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(0, 70, 0), 1, 5);
+		_registry.addReg(spring, p);
+
+		DragForceGen* drag = new DragForceGen(1.5f, 0);
+		GravForceGen* grav = new GravForceGen(Vector3(0, -9.8, 0), 100);
+		_registry.addReg(drag, p);
+		_registry.addReg(grav, p);
+		_particles.push_back(p);
+
+		particle* p2 = new particle(10, { 0,40,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,1,1,1 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+
+		SpringForceGen* spring1 = new SpringForceGen(p, 1, 5);
+		SpringForceGen* spring2 = new SpringForceGen(p2, 1, 5);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p);
 		
+		_registry.addReg(drag, p2);
+		_registry.addReg(grav, p2);
+		_particles.push_back(p2);
+
+		p = new particle(10, { 0,30,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+
+		spring1 = new SpringForceGen(p, 1, 5);
+		spring2 = new SpringForceGen(p2, 1, 5);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p);
+
+		_registry.addReg(drag, p);
+		_registry.addReg(grav, p);
+		_particles.push_back(p);
+
+		p2 = new particle(10, { 0,20,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+
+		spring1 = new SpringForceGen(p, 1, 5);
+		spring2 = new SpringForceGen(p2, 1, 5);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p);
+
+		_registry.addReg(drag, p2);
+		_registry.addReg(grav, p2);
+		_particles.push_back(p2);
+
+		p = new particle(10, { 0,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
+
+		spring1 = new SpringForceGen(p, 1, 5);
+		spring2 = new SpringForceGen(p2, 1, 5);
+		_registry.addReg(spring1, p2);
+		_registry.addReg(spring2, p);
+
+		_registry.addReg(drag, p);
+		_registry.addReg(grav, p);
 		_particles.push_back(p);
 	}
 
@@ -102,10 +161,14 @@ public:
 			//particle(10, { 1, 40, 1 }, { 0,0,0 }, { 0,0,0,0 }, CreateShape(PxBoxGeometry(3, 3, 3)));
 		p->setDamping(0.99);
 
+
+		DragForceGen* drag = new DragForceGen(1.5f, 0);
 		BuoyancyForceGen* bg = new BuoyancyForceGen(5, 27, 1, liquid);
 		GravForceGen* gg = new GravForceGen(Vector3(0, -9.8, 0), 0);
 		_registry.addReg(bg, p);
 		_registry.addReg(gg, p);
+		_registry.addReg(drag, p);
+
 		_particles.push_back(p);
 	}
 };

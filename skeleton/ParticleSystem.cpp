@@ -50,9 +50,10 @@ ParticleSystem::ParticleSystem() {
 	//fireworkGen = new FireworkGenerator("Fireworks...", Vector3(10, 30, 10));
 #pragma endregion
 
+	SlinkyGen();
 	//BuoyancyGen();
 	//SpringGen();
-	AnchSpringGen();
+	//AnchSpringGen();
 	//BungeeGen();
 
 }
