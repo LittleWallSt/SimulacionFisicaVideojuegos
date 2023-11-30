@@ -89,7 +89,7 @@ void TornadoForceGen::updateForce(particle* particle, double duration)
 void ExplosionGen::updateForce(particle* particle, double t)
 {
 	
-		//si la particula tiene una masa enormee
+		//si la particula tiene una masa minii
 		if (fabs(particle->getUnMass()) < 1e-10) return;
 		
 		
@@ -114,47 +114,49 @@ SpringForceGen::SpringForceGen(particle* other, float k, float resting_length) :
 
 void SpringForceGen::updateForce(particle* p, double duration)
 {
-	if (fabs(p->getUnMass()) <= 0.0f) return;
+	if (fabs(p->getUnMass()) <= 1e-10) return;
 
+	
 	Vector3 f = _other->getPos() - p->getPos();
-
+	//longitud
 	const float length = f.normalize();
+
+	//variacion
 	const float delta_x = length - _resting_length;
 
+	//Fuerza
 	f *= delta_x * _k / duration;
 
 	p->addForce(f);
 }
 
-AnchoredSpringFG::AnchoredSpringFG( Vector3& position, float k, float resting_length) :
+AnchoredSpringForceGen::AnchoredSpringForceGen( Vector3& position, float k, float resting_length) :
 	SpringForceGen(nullptr, k, resting_length)
 {
 	_other = new particle(100, position, { 0,0,0 }, { 0,0,0 }, -300,  {1, 1, 1, 1}, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
 }
 
-AnchoredSpringFG::~AnchoredSpringFG()
+void RubberBandGen::updateForce(particle* p, double t)
+{
+	//la fuerza solo se aplica cuando la distancia entre los dos objetos
+	//supera la resting_length.
+	
+	Vector3 F = _other->getPos() - p->getPos();
+
+	const float l = F.normalize();
+	const float delta_x = l - _resting_length;
+	F *= delta_x * _k;
+
+	if (l > _resting_length) {
+		p->addForce(F);
+	}
+}
+
+AnchoredSpringForceGen::~AnchoredSpringForceGen()
 {
 	delete _other;
 }
 
-BungeeForceGen::BungeeForceGen(particle* other, float k, float resting_length) :
-	SpringForceGen(other, k, resting_length) {}
-
-void BungeeForceGen::updateForce(particle* p, double duration)
-{
-	if (fabs(p->getUnMass()) <= 0.0f) return;
-
-	Vector3 f = _other->getPos() - p->getPos();
-
-	const float length = f.normalize();
-	const float delta_x = length - _resting_length;
-
-	if (delta_x <= 0.0f) return;
-
-	f *= delta_x * _k;
-
-	p->addForce(f);
-}
 
 BuoyancyForceGen::BuoyancyForceGen(float height, float V, float d, particle* liquid_surface) :
 	_height(height), _volume(V), _density(d), _liquid_particle(liquid_surface)
@@ -163,18 +165,26 @@ BuoyancyForceGen::BuoyancyForceGen(float height, float V, float d, particle* liq
 
 void BuoyancyForceGen::updateForce(particle* p, double duration)
 {
-	if (fabs(p->getUnMass()) <= 0.0f) return;
-
+	if (fabs(p->getUnMass()) <= 1e-10) return;
+	//Objeto
 	float h = p->getPos().y;
+
+	//Liquido
 	float h0 = _liquid_particle->getPos().y;
 
 	Vector3 f(0, 0, 0);
+
+	//Como de sumergido esta
 	float immersed = 0.0;
+
+	//Fuera
 	if (h0 - h > _height * 0.5) immersed = 1.0;
+	//Sumergido
 	else if (h - h0 > _height * 0.5) immersed = 0.0;
+	//parcialmente sumergido
 	else immersed = (h0 - h) / _height + 0.5;
 
-	f.y = _density * _volume * immersed*9.8;
+	f.y = _density * _volume * immersed*9.8; //A mayor volumen mayor rebote
 	p->addForce(f);
 }
 

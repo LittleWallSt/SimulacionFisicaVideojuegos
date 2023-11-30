@@ -100,28 +100,38 @@ protected:
 	particle* _other;
 };
 
-class AnchoredSpringFG : public SpringForceGen {
+
+
+class RubberBandGen : public SpringForceGen
+{
 public:
-	AnchoredSpringFG(Vector3& position, float k, float resting_length);
-	virtual ~AnchoredSpringFG();
+	RubberBandGen(particle* p, float k, float resting_length) : SpringForceGen(p, k, resting_length) {};
+
+	void updateForce(particle* p, double t);
 };
 
-class BungeeForceGen : public SpringForceGen {
+class AnchoredSpringForceGen : public SpringForceGen {
+
 public:
-	BungeeForceGen(particle* other, float k, float resting_length);
-	virtual ~BungeeForceGen() {};
-	void updateForce(particle* p, double duration) override;
+	AnchoredSpringForceGen(Vector3& position, float k, float resting_length);
+	virtual ~AnchoredSpringForceGen();
+	virtual  particle* getParticle() { return _other; };
 };
+
+
 
 class BuoyancyForceGen : public ForceGen {
 public:
 	BuoyancyForceGen(float height, float V, float d, particle* liquid_surface);
 	virtual ~BuoyancyForceGen() {};
 	void updateForce(particle* p, double duration) override;
-
+	void setVolume(float v) { _volume = v; };
+	float getVolume() { return _volume ; };
 protected:
 	float _height;
 	float _volume;
 	float _density;
-	particle* _liquid_particle;
+
+	
+	particle* _liquid_particle; //Piscina
 };

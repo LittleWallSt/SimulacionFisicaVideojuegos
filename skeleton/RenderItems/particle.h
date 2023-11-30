@@ -35,6 +35,8 @@ protected:
 	PxTransform pos;
 	float unMass, mass, damping, radius;
 
+	Vector3 scale;
+
 	Vector3 force;
 
 	// Tiempo
@@ -53,6 +55,8 @@ public:
 		this->lifeTime = other->lifeTime;
 		this->renderItem = other->renderItem;
 		this->force = other->force;
+		this->shape = other->shape;
+		
 
 	}
 	particle(float m, Vector3 p, Vector3 vel, Vector3 ac, double lTime, Vector4 col, PxShape* shp);
@@ -104,6 +108,26 @@ public:
 	
 	inline void setColor(Vector4 c) { color = c; }
 	inline void setShape(PxShape* s) { shape = s; }
+	inline Vector3 getScale() { return scale; }
+	inline float getVolume() { return scale.x * scale.y * scale.z; }
+	inline void setScale(Vector3 newScale) { scale = newScale; };
+
+	inline void addScaleX() { scale.x++; };
+	inline void addScaleY() { scale.y++; };
+	inline void addScaleZ() { scale.z++; };
+
+	inline void removeScaleX() { scale.x--; };
+	inline void removeScaleY() { scale.y--; };
+	inline void removeScaleZ() { scale.z--; };
+
+
+
+	
+	inline void applyScaleBox() { 
+		shape = CreateShape(PxBoxGeometry(scale));
+		renderItem->release();
+		renderItem = new RenderItem(shape, &pos, color);
+	};
 #pragma endregion
 	
 #pragma region Getters

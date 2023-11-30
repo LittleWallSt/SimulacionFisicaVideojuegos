@@ -108,12 +108,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
+
+	pSys->keyPress(key);
 	//gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case 'G':
+	/*case 'G':
 	{
 		pSys->getParticleGenerator("Geyser")->setActive();
 		break;
@@ -161,7 +163,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		pSys->setActiveForce(4);
 
 		break;
-	}
+	}*/
 	case '6': {
 		pSys->explode();
 		pSys->setActiveForce(5);

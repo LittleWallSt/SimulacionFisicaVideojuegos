@@ -10,7 +10,7 @@
 #include "ForceGenerator.h"
 #include "ParticleForceRegistry.h"
 #pragma once
-
+const int MASS_FACTOR = 100;
 
 
 using namespace std;
@@ -23,6 +23,7 @@ private:
 	list<ParticleGenerator*> _particle_generators;
 	vector<list<particle*>::iterator> _particlesToDelete;
 
+
 	std::list<Firework*> fireworks_pool;
 	FireworkGenerator* fireworkGen;
 	std::vector<list<Firework*>::iterator> deadFireworks;
@@ -31,6 +32,14 @@ private:
 
 	int activeForce = 2;
 	bool forcesActive[N_FORCES] = {false};
+
+	particle* buoyancy_particle;
+	particle* buoyancy_liquid;
+	particle* spring_particle = nullptr;
+
+	BuoyancyForceGen* buoyancy_gen;
+	bool buoyancy = false;
+
 
 	bool explosion = false;
 
@@ -55,30 +64,36 @@ public:
 
 	void AnchSpringGen() {
 		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
-			//new particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 5, 1e10);
 		
-		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(0, 70, 0), 1, 5);
+		AnchoredSpringForceGen* spring = new AnchoredSpringForceGen(Vector3(0, 80, 0), 1, 5);
 		_registry.addReg(spring, p);
+
+		
 		
 		DragForceGen* drag = new DragForceGen(1.5f, 0);
 		GravForceGen* grav = new GravForceGen(Vector3(0, -9.8, 0), 100);
 		_registry.addReg(drag, p);
 		_registry.addReg(grav, p);
+
+		spring_particle = spring->getParticle();
 		_particles.push_back(p);
 	}
 
 	void SlinkyGen() {
 		particle* p = new particle(10, { 0,50,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0, 1, 1, 1 }, CreateShape(physx::PxBoxGeometry(1, 1, 1)));
-		//new particle({ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, 0.99, 5, 1e10);
 
-		AnchoredSpringFG* spring = new AnchoredSpringFG(Vector3(0, 70, 0), 1, 5);
+		AnchoredSpringForceGen* spring = new AnchoredSpringForceGen(Vector3(0, 70, 0), 1, 5);
 		_registry.addReg(spring, p);
 
 		DragForceGen* drag = new DragForceGen(1.5f, 0);
 		GravForceGen* grav = new GravForceGen(Vector3(0, -9.8, 0), 100);
 		_registry.addReg(drag, p);
 		_registry.addReg(grav, p);
+		
+		spring_particle = spring->getParticle();
+		
 		_particles.push_back(p);
+
 
 		particle* p2 = new particle(10, { 0,40,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,1,1,1 }, CreateShape(PxBoxGeometry(1, 1, 1)));
 
@@ -134,21 +149,23 @@ public:
 		_registry.addReg(spring1, p2);
 		_registry.addReg(spring2, p1);
 		
-		DragForceGen* drag = new DragForceGen(0.5, 0);
+		DragForceGen* drag = new DragForceGen(1.5f, 0);
 		_registry.addReg(drag, p1);
 		_registry.addReg(drag, p2);
 		_particles.push_back(p1);
 		_particles.push_back(p2);
 	}
 
-	void BungeeGen() {
-		particle* p1 = new particle(10, { 10,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,0,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
-		particle* p2 = new particle(10, { -10,10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 0,0,0,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
-		BungeeForceGen* spring1 = new BungeeForceGen(p1, 2, 10);
-		BungeeForceGen* spring2 = new BungeeForceGen(p2, 2, 10);
+	void RubberBandGenerator() {
+		particle* p1 = new particle(10, { 0,20,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 1,0,1,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+		particle* p2 = new particle(10, { 0, 10,0 }, { 0,0,0 }, { 0,0,0 }, -300, { 1,0,1,0 }, CreateShape(PxBoxGeometry(1, 1, 1)));
+
+		RubberBandGen* spring1 = new RubberBandGen(p1, 2, 5);
+		RubberBandGen* spring2 = new RubberBandGen(p2, 2, 5);
 		_registry.addReg(spring1, p2);
 		_registry.addReg(spring2, p1);
-		DragForceGen* drag = new DragForceGen(0.05, 0);
+
+		DragForceGen* drag = new DragForceGen(1.5f, 0);
 		_registry.addReg(drag, p1);
 		_registry.addReg(drag, p2);
 		_particles.push_back(p1);
@@ -156,19 +173,169 @@ public:
 	}
 
 	void BuoyancyGen() {
-		particle* liquid = new particle(0, { 0, 0, 0 }, { 0,0,0 }, { 0,0,0}, -300, Vector4(0, 0, 0.3, 0),CreateShape(PxBoxGeometry(20, 2, 20)));
-		particle* p = new  particle(10, { 0, 20, 0 }, Vector3(0, 0.0f, 0), Vector3(0, 0, 0), -300, Vector4(1, 1, 0, 0), CreateShape(PxBoxGeometry(3, 3, 3)));
-			//particle(10, { 1, 40, 1 }, { 0,0,0 }, { 0,0,0,0 }, CreateShape(PxBoxGeometry(3, 3, 3)));
-		p->setDamping(0.99);
+		buoyancy_liquid = new particle(0, { 0, 0, 0 }, { 0,0,0 }, { 0,0,0}, -300, Vector4(0, 0, 0.3, 0),CreateShape(PxBoxGeometry(20, 2, 20)));
+		buoyancy_particle = new  particle(100, { 0, 20, 0 }, Vector3(0, 0.0f, 0), Vector3(0, 0, 0), -300, Vector4(1, 1, 0, 0), CreateShape(PxBoxGeometry(3, 3, 3)));
+		buoyancy_particle->setDamping(0.99);
+		buoyancy_particle->setScale({ 3,3,3 });
+
 
 
 		DragForceGen* drag = new DragForceGen(1.5f, 0);
-		BuoyancyForceGen* bg = new BuoyancyForceGen(5, 27, 1, liquid);
+		BuoyancyForceGen* bg = new BuoyancyForceGen(5, buoyancy_particle->getVolume(), 1000, buoyancy_liquid);
 		GravForceGen* gg = new GravForceGen(Vector3(0, -9.8, 0), 0);
-		_registry.addReg(bg, p);
-		_registry.addReg(gg, p);
-		_registry.addReg(drag, p);
 
-		_particles.push_back(p);
+		buoyancy_gen = bg;
+
+		_registry.addReg(bg, buoyancy_particle);
+		_registry.addReg(gg, buoyancy_particle);
+		_registry.addReg(drag, buoyancy_particle);
+
+		_particles.push_back(buoyancy_particle);
 	}
+
+	void manuallyKillAllParticles() {
+		for (auto it = _particles.begin(); it != _particles.end(); it++) {
+			_particlesToDelete.push_back(it);
+		}
+		if (buoyancy) {
+			particle* p = buoyancy_liquid;
+			buoyancy_liquid = nullptr;
+			delete p;
+		}
+		if (spring_particle != nullptr) {
+			particle* p = spring_particle;
+			spring_particle = nullptr;
+			delete p;
+		}
+	}
+	void keyPress(unsigned char key) {
+		switch (toupper(key))
+		{
+		case 'I':
+			manuallyKillAllParticles();
+			buoyancy = false;
+			SlinkyGen();
+			break;
+		case 'B':
+			manuallyKillAllParticles();
+			buoyancy = true;
+			BuoyancyGen();
+			break;
+		case 'G':
+			manuallyKillAllParticles();
+			buoyancy = false;
+			SpringGen();
+			break;
+		case 'H':
+			manuallyKillAllParticles();
+			buoyancy = false;
+			AnchSpringGen();
+			break;
+		case 'R':
+			manuallyKillAllParticles();
+			buoyancy = false;
+			AnchSpringGen();
+			break;
+		case 'T':
+			manuallyKillAllParticles();
+			buoyancy = false;
+			RubberBandGenerator();
+			break;
+
+		//Controlador de volumen y masa de la particula a sumergir
+		case 'M':
+			if (buoyancy) {
+				buoyancy_particle->setMass(buoyancy_particle->getMass() + MASS_FACTOR);
+				cout << buoyancy_particle->getMass() << endl;
+			}
+			break;
+		case 'L':
+			if (buoyancy) {
+				if(buoyancy_particle->getMass() > 10)buoyancy_particle->setMass(buoyancy_particle->getMass() - MASS_FACTOR);
+				if (buoyancy_particle->getMass() < 0) { buoyancy_particle->setMass(1); }
+			}
+			break;
+		
+		//Incremento del tamaño en X
+		case 'X':
+			if (buoyancy) {
+				
+				buoyancy_particle->addScaleX();
+
+				if (buoyancy_particle->getScale().x > 0) {
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+		
+		//Incremento del tamaño en Y
+		case 'Y':
+			if (buoyancy) {
+				
+				buoyancy_particle->addScaleY();
+
+				if (buoyancy_particle->getScale().y > 0) {
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+		
+		//Incremento del tamaño en Z
+		case 'Z':
+			if (buoyancy) {
+				
+				buoyancy_particle->addScaleZ();
+
+				if (buoyancy_particle->getScale().z > 0) { 
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+
+		//Decremento de la X
+		case 'F':
+			if (buoyancy) {
+
+				if(buoyancy_particle->getScale().x > 1)buoyancy_particle->removeScaleX();
+
+				if (buoyancy_particle->getScale().x > 0) {
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+
+		//Decremento de la Y
+		case 'C':
+			if (buoyancy) {
+
+				if (buoyancy_particle->getScale().y > 1)buoyancy_particle->removeScaleY();
+
+				if (buoyancy_particle->getScale().y > 0) {
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+			//Decremento de la Z
+		case 'V':
+			if (buoyancy) {
+
+				if (buoyancy_particle->getScale().z > 1)buoyancy_particle->removeScaleZ();
+
+				if (buoyancy_particle->getScale().z > 0) {
+					buoyancy_particle->applyScaleBox();
+					buoyancy_gen->setVolume(buoyancy_particle->getVolume());
+				}
+			}
+			break;
+		
+		}
+		
+	}
+
+	
 };
