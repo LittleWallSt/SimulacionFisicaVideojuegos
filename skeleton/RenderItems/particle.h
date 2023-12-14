@@ -82,7 +82,7 @@ public:
 	
 
 	// Actualizar
-	bool integrate(double t);
+	virtual bool integrate(double t);
 
 	// Clonar partícula
 	virtual particle* clone(Vector3 v, Vector3 acc,  float lT = -1, Vector4 color  = Vector4(), float mass = 0) const;

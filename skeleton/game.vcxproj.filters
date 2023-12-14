@@ -40,6 +40,10 @@
     <ClCompile Include="ForceGenerator.cpp">
       <Filter>ParticleGenerator\Generators</Filter>
     </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -87,6 +91,10 @@
     <ClInclude Include="ParticleForceRegistry.h">
       <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
