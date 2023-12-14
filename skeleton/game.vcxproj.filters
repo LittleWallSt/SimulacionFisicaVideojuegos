@@ -13,12 +13,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>ParticleGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="UniformParticleGenerator.cpp">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClCompile>
-    <ClCompile Include="GaussianParticleGenerator.cpp">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleGenerator.cpp">
       <Filter>ParticleGenerator</Filter>
     </ClCompile>
@@ -27,12 +21,6 @@
     </ClCompile>
     <ClCompile Include="RenderItems\firework.cpp">
       <Filter>RenderItems</Filter>
-    </ClCompile>
-    <ClCompile Include="FireworkGenerator.cpp">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleGenerator.cpp">
-      <Filter>ParticleGenerator\Generators</Filter>
     </ClCompile>
     <ClCompile Include="RenderItems\Particle2.cpp">
       <Filter>RenderItems</Filter>
@@ -43,7 +31,24 @@
     <ClCompile Include="RigidBody.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBodyGenerator.cpp" />
+    <ClCompile Include="RigidBodyGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="FireworkGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianParticleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformParticleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodySystem.cpp">
+      <Filter>ParticleGenerator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -67,20 +72,8 @@
     <ClInclude Include="ParticleSystem.h">
       <Filter>ParticleGenerator</Filter>
     </ClInclude>
-    <ClInclude Include="UniformParticleGenerator.h">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="GaussianParticleGenerator.h">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClInclude>
     <ClInclude Include="RenderItems\firework.h">
       <Filter>RenderItems</Filter>
-    </ClInclude>
-    <ClInclude Include="FireworkGenerator.h">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleGenerator.h">
-      <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
     <ClInclude Include="RenderItems\Particle2.h">
       <Filter>RenderItems</Filter>
@@ -88,13 +81,30 @@
     <ClInclude Include="ForceGenerator.h">
       <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleForceRegistry.h">
-      <Filter>ParticleGenerator\Generators</Filter>
-    </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBodyGenerator.h" />
+    <ClInclude Include="RigidBodyGenerator.h">
+      <Filter>ParticleGenerator\Generators\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="FireworkGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianParticleGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceRegistry.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformParticleGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodySystem.h">
+      <Filter>ParticleGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -111,6 +121,12 @@
     </Filter>
     <Filter Include="ParticleGenerator\Generators">
       <UniqueIdentifier>{7aaf7503-11e7-4e8d-b8ac-0618d3838bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleGenerator\Generators\RigidBodies">
+      <UniqueIdentifier>{f3478a80-2a41-4b47-85a4-21a81faf584c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleGenerator\Generators\Particles">
+      <UniqueIdentifier>{1396c451-a40b-4ec1-91e9-a583d58d3048}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

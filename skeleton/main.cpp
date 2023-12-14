@@ -12,6 +12,7 @@
 #include "Objects/ProyectileLauncher.h"
 #include "ParticleGenerator.h"
 #include "ParticleSystem.h"
+#include "RigidBodySystem.h"
 #include <iostream>
 
 std::string display_text = "O:";
@@ -37,6 +38,7 @@ ContactReportCallback gContactReportCallback;
 particle* parti;
 ProyectileLauncher* gun;
 ParticleSystem* pSys;
+RigidBodySystem* rbSys;
 
 
 
@@ -64,8 +66,10 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	
-	parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
-	pSys = new ParticleSystem();
+	//parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
+	//pSys = new ParticleSystem();
+	rbSys = new RigidBodySystem(gScene, gPhysics);
+	rbSys->demo();
 
 }
 
@@ -82,7 +86,8 @@ void stepPhysics(bool interactive, double t)
 	//parti->integrate(t);
 	//gun->integrate(t);
 	
-	pSys->update(t);
+	//pSys->update(t);
+	rbSys->update(t);
 }
 
 // Function to clean data
@@ -109,7 +114,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	PX_UNUSED(camera);
 
 
-	pSys->keyPress(key);
+	//pSys->keyPress(key);
 	//gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))
 	{
@@ -164,12 +169,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 		break;
 	}*/
-	case '6': {
+	/*case '6': {
 		pSys->explode();
 		pSys->setActiveForce(5);
 
 		break;
-	}
+	}*/
 
 	default:
 		break;
