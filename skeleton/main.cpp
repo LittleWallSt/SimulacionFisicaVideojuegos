@@ -113,7 +113,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-
+	rbSys->keyPress(key);
 	//pSys->keyPress(key);
 	//gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))

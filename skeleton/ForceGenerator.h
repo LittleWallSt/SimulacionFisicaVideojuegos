@@ -88,6 +88,7 @@ protected:
 	bool _enabled = false;
 };
 
+#pragma region Muelles
 class SpringForceGen : public ForceGen {
 public:
 	SpringForceGen(particle* other, float k, float resting_length);
@@ -126,12 +127,15 @@ public:
 	virtual ~BuoyancyForceGen() {};
 	void updateForce(particle* p, double duration) override;
 	void setVolume(float v) { _volume = v; };
-	float getVolume() { return _volume ; };
+	float getVolume() { return _volume; };
 protected:
 	float _height;
 	float _volume;
 	float _density;
 
-	
+
 	particle* _liquid_particle; //Piscina
 };
+#pragma endregion
+
+

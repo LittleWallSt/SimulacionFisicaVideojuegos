@@ -268,6 +268,7 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="RigidBodyForceGen.cpp" />
     <ClCompile Include="RigidBodyGenerator.cpp" />
     <ClCompile Include="RigidBodySystem.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
@@ -290,6 +291,8 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="RigidBodyForceGen.h" />
+    <ClInclude Include="RigidBodyForceRegistry.h" />
     <ClInclude Include="RigidBodyGenerator.h" />
     <ClInclude Include="RigidBodySystem.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
