@@ -58,8 +58,37 @@ void RigidBodyWindForceGen::updateForce(RigidBody* particle, double duration)
 	Vector3 windForce;
 
 	//ecuacion del dragForce k1 depende de la fuerza del drag y k2 depende del coeficiente de rozamiento del objeto, cuanto mas bajo mejor
-	dragCoef = _k1 * dragCoef + _k2 * dragCoef * dragCoef;
-	windForce = -v * dragCoef;
+	windForce = _k1 * v + _k2 * dragCoef * v;
 
 	particle->addForce(windForce);
 }
+
+//RigidBodyBuoyancyGen::RigidBodyBuoyancyGen(float height, float V, float d) :
+//	_height(height), _volume(V), _density(d)
+//{
+//}
+//
+//void RigidBodyBuoyancyGen::updateForce(RigidBody* p, double duration)
+//{
+//	if (fabs(p->getUnMass()) <= 1e-10) return;
+//	//Objeto
+//	float h = p->getPos().y;
+//
+//	//Altura del Liquido
+//	float h0 = 50;
+//
+//	Vector3 f(0, 0, 0);
+//
+//	//Como de sumergido esta
+//	float immersed = 0.0;
+//
+//	//Fuera
+//	if (h0 - h > _height * 0.5) immersed = 1.0;
+//	//Sumergido
+//	else if (h - h0 > _height * 0.5) immersed = 0.0;
+//	//parcialmente sumergido
+//	else immersed = (h0 - h) / _height + 0.5;
+//
+//	f.y = _density * _volume * immersed * 9.8; //A mayor volumen mayor rebote
+//	p->addForce(f);
+//}

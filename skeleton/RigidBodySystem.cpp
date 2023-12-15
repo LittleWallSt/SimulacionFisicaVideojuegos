@@ -5,7 +5,7 @@ RigidBodySystem::RigidBodySystem(PxScene* scene, PxPhysics* phys) {
 	_physics = phys;
 
 	floor = _physics->createRigidStatic(physx::PxTransform({ 0, 0, 0 }));
-	PxShape* shape = CreateShape(physx::PxBoxGeometry(Vector3(250, 1, 250)));
+	PxShape* shape = CreateShape(physx::PxBoxGeometry(Vector3(2500, 1, 2500)));
 	floor->attachShape(*shape);
 	_scene->addActor(*floor);
 	floorRenderItem = new RenderItem(shape, floor, { 0.3, 0.3, 0.3, 0 });
@@ -36,7 +36,10 @@ void RigidBodySystem::update(double t) {
 		addGen(force);
 	}
 	
-	addGen(wind);
+	if (expl->active) {
+		addGen(expl);
+		expl->setActive();
+	}
 
 	_registry.updateForces(t);
 
@@ -54,22 +57,40 @@ void RigidBodySystem::update(double t) {
 		}
 	}
 
-	_forceGens.clear();
 }
 
 void RigidBodySystem::demo() {
-	/*RigidBody* model = new RigidBody(_scene, _physics, { 0,10,0 }, { 0,1,1,1 }, { 0, 10, 0 }, { 4,4,4 }, 10, 5, Cube);
+	RigidBody* model = new RigidBody(_scene, _physics, { 0,10,0 }, { 0,1,1,1 }, { 0, 10, 0 }, { 4,4,4 }, 10, 5, Cube);
 	RigidBodyGenerator* rbGen = new UniformRigidBodyGen("uniform", model, { 10, 50,-100 }, { 10,10,10 });
-	rbGen->setActive();
-	_RBGens.push_back(rbGen);*/
-
-	RigidBody* model = new RigidBody(_scene, _physics, { 0,10,0 }, { 1,1,0,1 }, { 0, 10, 0 }, { 4,10,4 }, 1, 100, Cube);
-	RigidBodyGenerator* rbGen = new GaussianRigidBodyGen("uniform", model, { 10, 50,-100 }, { 1,1,1 }, 0.2,false, {100,1,100});
-	rbGen->setActive();
+	_RBGens.push_back(rbGen);
+	
+	model = new RigidBody(_scene, _physics, { 0,10,0 }, { 1,1,0,1 }, { 0, 10, 0 }, { 4,10,4 }, 1, 10, Cube);
+	rbGen = new GaussianRigidBodyGen("gaussian", model, { 0, 100,-200 }, { 1,1,1 }, 0.1,false, {50,50,50});
 	_RBGens.push_back(rbGen);
 
-	wind = new RigidBodyWindForceGen(Vector3(0,10,100), 100, 0);
+
+	wind = new RigidBodyWindForceGen(Vector3(0,0,50000000), 100, 0.0f);
 	wind->setActive();
+	_forceGens.push_back(wind);
 	
+
+	expl = new RigidBodyExplosionGen(200, 50000000, { 0, 100,-200 }, 2);
+	expl->setActive();
+
+	/*pool = new RigidBodyBuoyancyGen(4, 4*10*4, 10);
+	pool->setActive();
+	_forceGens.push_back(pool);*/
 	
+}
+
+// Buscar y devolver un generador con el nombre recibido
+RigidBodyGenerator* RigidBodySystem::getParticleGenerator(string name) {
+	auto it = _RBGens.begin();
+	bool enc = false;
+	while (!enc && it != _RBGens.end()) {
+		enc = (*it)->getName() == name;
+		if (!enc) it++;
+	}
+
+	return (*it);
 }

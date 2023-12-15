@@ -13,9 +13,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>ParticleGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleGenerator.cpp">
-      <Filter>ParticleGenerator</Filter>
-    </ClCompile>
     <ClCompile Include="RenderItems\particle.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
@@ -24,9 +21,6 @@
     </ClCompile>
     <ClCompile Include="RenderItems\Particle2.cpp">
       <Filter>RenderItems</Filter>
-    </ClCompile>
-    <ClCompile Include="ForceGenerator.cpp">
-      <Filter>ParticleGenerator\Generators</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>RenderItems</Filter>
@@ -49,6 +43,15 @@
     <ClCompile Include="RigidBodySystem.cpp">
       <Filter>ParticleGenerator</Filter>
     </ClCompile>
+    <ClCompile Include="ForceGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyForceGen.cpp">
+      <Filter>ParticleGenerator\Generators\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGenerator.cpp">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -66,9 +69,6 @@
     <ClInclude Include="Objects\ProyectileLauncher.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleGenerator.h">
-      <Filter>ParticleGenerator</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>ParticleGenerator</Filter>
     </ClInclude>
@@ -77,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="RenderItems\Particle2.h">
       <Filter>RenderItems</Filter>
-    </ClInclude>
-    <ClInclude Include="ForceGenerator.h">
-      <Filter>ParticleGenerator\Generators</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>RenderItems</Filter>
@@ -104,6 +101,18 @@
     </ClInclude>
     <ClInclude Include="RigidBodySystem.h">
       <Filter>ParticleGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyForceGen.h">
+      <Filter>ParticleGenerator\Generators\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyForceRegistry.h">
+      <Filter>ParticleGenerator\Generators\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGenerator.h">
+      <Filter>ParticleGenerator\Generators\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

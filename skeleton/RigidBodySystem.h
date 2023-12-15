@@ -8,8 +8,12 @@
 #include "RigidBodyForceRegistry.h"
 #include "RigidBodyForceGen.h"
 #include <vector>
+#define EXPLOSION_DURATION 2.0f
+
 using namespace std;
 using namespace physx;
+
+
 
 class RigidBodySystem
 {
@@ -22,13 +26,25 @@ public:
 	void keyPress(unsigned char key) {
 		switch (toupper(key)) {
 		case '6': {
-			RigidBodyForceGen* expl = new RigidBodyExplosionGen(50, 5000000000, { 0,0,0 }, 3);
-			_forceGens.push_back(expl); }
+			expl->setActive();
+			expl->resetDuration(EXPLOSION_DURATION);
+		}
 
 			break;
 		case 'Q': 
 			wind->setActive(); 
 		break;
+		case 'G':
+			getParticleGenerator("gaussian")->setActive();
+
+			break;
+		case 'U':
+			getParticleGenerator("uniform")->setActive();
+
+
+			break;
+
+		
 		}
 	}
 
@@ -40,7 +56,12 @@ protected:
 	list<RigidBodyGenerator*> _RBGens;
 	list<RigidBodyForceGen*> _forceGens;
 	RigidBodyGenerator* gen = nullptr;
-	RigidBodyWindForceGen* wind;
+	
+	
+	RigidBodyForceGen* wind;
+	RigidBodyExplosionGen* expl;
+	//RigidBodyBuoyancyGen* pool;
+
 
 	RigidBodyForceRegistry _registry;	
 	PxRigidStatic* floor;
@@ -56,5 +77,7 @@ protected:
 		}
 
 	}
+
+	RigidBodyGenerator* getParticleGenerator(string name);
 };
 
