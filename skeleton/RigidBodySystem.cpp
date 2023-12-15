@@ -60,7 +60,7 @@ void RigidBodySystem::update(double t) {
 }
 
 void RigidBodySystem::demo() {
-	RigidBody* model = new RigidBody(_scene, _physics, { 0,10,0 }, { 0,1,1,1 }, { 0, 10, 0 }, { 4,4,4 }, 10, 5, Cube);
+	RigidBody* model = new RigidBody(_scene, _physics, { 0,10,0 }, { 0,1,1,1 }, { 0, 10, 0 }, { 4,4,4 }, 10, 5, Capsule);
 	RigidBodyGenerator* rbGen = new UniformRigidBodyGen("uniform", model, { 10, 50,-100 }, { 10,10,10 });
 	_RBGens.push_back(rbGen);
 	
