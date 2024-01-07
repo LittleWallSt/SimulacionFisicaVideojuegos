@@ -13,9 +13,11 @@
 #include "ParticleGenerator.h"
 #include "ParticleSystem.h"
 #include "RigidBodySystem.h"
+#include "ProyectoSystem.h"
 #include <iostream>
+#include "suikaCallback.h"
 
-std::string display_text = "O:";
+std::string display_text = "SUIKA PHYSX";
 
 
 using namespace physx;
@@ -35,10 +37,12 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
+SuikaCallback callback;
 particle* parti;
 ProyectileLauncher* gun;
 ParticleSystem* pSys;
 RigidBodySystem* rbSys;
+ProyectoSystem* prSys;
 
 
 
@@ -59,17 +63,22 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -90.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
-	sceneDesc.simulationEventCallback = &gContactReportCallback;
+	sceneDesc.simulationEventCallback = &callback;
+		//&gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	
+	//SuikaCallback myCB;
+	//gScene->setSimulationEventCallback(&myCB);
 	//parti = new particle(10, Vector3(0), Vector3(50), Vector3(0), 0, Vector4(1, 1, 1, 1), CreateShape(PxBoxGeometry(500, 1, 500)));
 	//pSys = new ParticleSystem();
-	rbSys = new RigidBodySystem(gScene, gPhysics);
-	rbSys->demo();
+	//rbSys = new RigidBodySystem(gScene, gPhysics);
+	//rbSys->demo();
+	prSys = new ProyectoSystem(gScene, gPhysics);
+	prSys->demo();
+
 
 }
 
@@ -87,7 +96,9 @@ void stepPhysics(bool interactive, double t)
 	//gun->integrate(t);
 	
 	//pSys->update(t);
-	rbSys->update(t);
+	//rbSys->update(t);
+	prSys->update(t);
+
 }
 
 // Function to clean data
@@ -113,8 +124,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	rbSys->keyPress(key);
+	//rbSys->keyPress(key);
 	//pSys->keyPress(key);
+	prSys->keyPress(key);
 	//gun->OnKeyPress(key, camera, GetCamera()->getDir());
 	switch(toupper(key))
 	{

@@ -7,7 +7,6 @@
     <ClCompile Include="Render\Render.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="ParticleSystem.cpp">
@@ -52,6 +51,10 @@
     <ClCompile Include="ParticleGenerator.cpp">
       <Filter>ParticleGenerator\Generators\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="ProyectoSystem.cpp">
+      <Filter>proyectoFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -114,6 +117,10 @@
     <ClInclude Include="ParticleGenerator.h">
       <Filter>ParticleGenerator\Generators\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="ProyectoSystem.h">
+      <Filter>proyectoFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="suikaCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -136,6 +143,9 @@
     </Filter>
     <Filter Include="ParticleGenerator\Generators\Particles">
       <UniqueIdentifier>{1396c451-a40b-4ec1-91e9-a583d58d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="proyectoFinal">
+      <UniqueIdentifier>{4279d0b2-d35a-4362-ba9e-afc9294d94d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

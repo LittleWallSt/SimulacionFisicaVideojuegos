@@ -2,6 +2,7 @@
 #include "../skeleton/RenderItems/particle.h"
 #include <list>
 #include <string>
+#include <iostream>
 
 class ForceGen
 {
@@ -59,6 +60,10 @@ public:
 	TornadoForceGen(Vector3 center, float k1, float k2, float kt) : WindForceGen(Vector3(0), k1, k2, center, INT_MAX, INT_MAX, INT_MAX), _center(center), _Kt(kt) {};
 	~TornadoForceGen() {};
 	void updateForce(particle* particle, double t) override;
+	void moveCenter(Vector3 newCenter) { origin = newCenter;
+					//std::cout << "!!!" << std::endl;
+	};
+	Vector3 getCenter() { return _center; };
 protected:
 	Vector3 _center;
 	float _Kt;

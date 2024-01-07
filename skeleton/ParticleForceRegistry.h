@@ -21,7 +21,7 @@ public:
 
 	//switch de casos con el fG a añadir
 	void addReg(int type, particle* p) {
-		ForceGen* fg;
+		/*ForceGen* fg;
 		switch (type) {
 		case 0:
 			return;
@@ -49,7 +49,7 @@ public:
 			return;
 			break;
 		}
-		insert({ fg, p });
+		insert({ fg, p });*/
 	}
 
 	void deletePartReg(particle* p) {

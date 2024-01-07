@@ -67,6 +67,9 @@ protected:
 	PxRigidStatic* floor;
 	RenderItem* floorRenderItem;
 
+	
+
+
 
 	void addGen(RigidBodyForceGen* gen) {
 		if (gen->active) {

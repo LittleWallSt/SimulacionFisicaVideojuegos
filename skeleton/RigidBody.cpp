@@ -21,7 +21,7 @@ RigidBody::RigidBody(PxScene* scene, PxPhysics* phys, Vector3 p, Vector4 colour,
 {
 	Scene = scene;
 	Physics = phys;
-	color = colour;
+	_color = colour;
 	tipo = typ;
 	dimensions = d;
 	iniPos = p;

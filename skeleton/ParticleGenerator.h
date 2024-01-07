@@ -23,6 +23,7 @@ protected:
 
 	// Variables
 	Vector3 iniPos, meanVel, meanVar;
+	Vector4 color;
 	float probability;
 	bool active = false;
 	bool randomLifeTime = true;
@@ -30,6 +31,7 @@ protected:
 	int minimumLifeTime = 3;
 	bool randomColor = false;
 	bool randomMass = false;
+	bool passColor = false;
 	int randomMassRange = 1;
 	int minimumMass = 10;
 
@@ -53,10 +55,13 @@ public:
 	
 	inline void setName(string newName) { name = newName; };
 	inline void setRandomColor() { randomColor = !randomColor; };
+	inline void activatePassColor() { passColor = !passColor; };
 	
 	inline void setRandomMass() { randomMass = !randomMass; };
 	inline void setMinimumMass(int min) { minimumMass = min; };
 	inline void setRandomMassRange(int range) { randomMassRange = range; };
+	inline void setPos(PxVec3 pos) { iniPos = pos; }
+	inline void setPassColor(Vector4 newColor) { color = newColor; };
 
 
 	inline string getName() { return name; };

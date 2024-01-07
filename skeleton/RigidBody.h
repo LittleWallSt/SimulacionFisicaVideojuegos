@@ -3,7 +3,18 @@
 #include "RenderUtils.hpp"
 #include "RenderItems/particle.h"
 using namespace physx;
-
+enum color {
+	red = 0,
+	pink,
+	purple,
+	yellow,
+	orange, 
+	lightBlue, 
+	Blue, 
+	brown, 
+	lightGreen, 
+	green
+};
 enum type {
 	Cube = 0
 	, Capsule
@@ -17,9 +28,13 @@ protected:
 	PxRigidDynamic* _rDynamic = nullptr;
 	RenderItem* _renderItem;
 	double lifeTime;
-	Vector4 color;
+	Vector4 _color;
 	type tipo;
+	color couleur;
 	Vector3 dimensions, iniPos, limits = {500, 500, 500};
+	bool contactFlag = false;
+	bool message = false;
+
 
 	// Físicas
 	PxPhysics* Physics;
@@ -37,6 +52,12 @@ public:
 	void addForce(Vector3 f) { _rDynamic->addForce(f); }
 
 	void addTorque(Vector3 t) { _rDynamic->addTorque(t); }
+
+	//Para el suikalike
+	void flag() { contactFlag = true; };
+	bool getContact() { return contactFlag; };
+	void activateMessage() { message = !message; };
+	bool sendMessage() { return message; };
 
 	Vector3 getPos() {
 		return _rDynamic->getGlobalPose().p;
@@ -74,15 +95,18 @@ public:
 	void setPosition(Vector3 p){ _rDynamic->setGlobalPose(physx::PxTransform(p, getRotation())); }
 
 	RigidBody* clone() {
-		return new RigidBody(this->Scene, this->Physics, this->iniPos, this->color, 
+		return new RigidBody(this->Scene, this->Physics, this->iniPos, this->_color, 
 			this->getLinearVel(), this->dimensions, this->getMass(), this->lifeTime, this->tipo);
 	}
 
 	RigidBody* clone(Vector3 pos, Vector3 vel) {
-		return new RigidBody(this->Scene, this->Physics, pos, this->color,
+		return new RigidBody(this->Scene, this->Physics, pos, this->_color,
 			vel, this->dimensions, this->getMass(), this->lifeTime, this->tipo);
 	}
 
+	int getCouleur() {
+		return couleur;
+	}
 };
 
 //class StaticRigidBody {
