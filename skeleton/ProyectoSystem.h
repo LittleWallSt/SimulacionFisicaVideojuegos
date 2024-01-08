@@ -71,12 +71,25 @@ protected:
 	PxVec3 spawnPos = { 0,200,0 };
 	int explosions = 3;
 	int windCounter = 3;
+	int points = 0;
 
 	void generateRB() {
-		RigidBody* fruit = new RigidBody(_scene, _physics, spawnPos, { 1,0,0,1 }, { 0, -10, 0 }, { 10, 10, 10 }, 10, -100.0f, Sphere);
+		RigidBody* fruit = new RigidBody(_scene, _physics, spawnPos, fruitColors[red], {0, -10, 0}, {10, 10, 10}, 10, -100.0f, Sphere);
 		_rigids.push_back(fruit);
+		fruit->setCouleur(red);
 		SuikaInstance().reference.insert({ fruit->getActor(), fruit });
 	}
+
+	void generateNextFruit(int nextColor, Vector3 pos) {
+		if (nextColor <= green) {
+			RigidBody* fruit = new RigidBody(_scene, _physics, pos, fruitColors[nextColor], { 0, -10, 0 }, { 10, 10, 10 }, 10, -100.0f, Sphere);
+			_rigids.push_back(fruit);
+			fruit->setCouleur(nextColor);
+			SuikaInstance().reference.insert({ fruit->getActor(), fruit });
+		}
+	}
+
+
 
 	void addGen(RigidBodyForceGen* gen) {
 		if (gen->active) {

@@ -61,9 +61,12 @@ void ProyectoSystem::update(double t) {
 	_registry.updateForces(t);
 
 	for (auto rigid : _rigids) {
-		if (rigid->sendMessage()) {
-			generateRB();
+		if (rigid->getContact()) {
+			if (rigid->getMessage()) {
+				generateNextFruit(rigid->sendMensaje(), rigid->getPos());
+			}
 		}
+		
 	}
 
 	auto it = _rigids.begin();

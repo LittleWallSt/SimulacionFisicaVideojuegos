@@ -2,6 +2,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "RenderItems/particle.h"
+#include <iostream>
 using namespace physx;
 enum color {
 	red = 0,
@@ -20,6 +21,19 @@ enum type {
 	, Capsule
 	, Sphere
 };
+
+const std::vector<Vector4> fruitColors{
+	Vector4(1.0f, 0.0f, 0.0f, 1.0f),   // Red
+	Vector4(1.0f, 0.41f, 0.71f, 1.0f), // Pink
+	Vector4(0.5f, 0.0f, 0.5f, 1.0f),   // Purple
+	Vector4(1.0f, 1.0f, 0.0f, 1.0f),   // Yellow
+	Vector4(1.0f, 0.5f, 0.0f, 1.0f),   // Orange
+	Vector4(0.68f, 0.85f, 0.9f, 1.0f), // Light Blue
+	Vector4(0.0f, 0.0f, 1.0f, 1.0f),   // Blue
+	Vector4(0.6f, 0.4f, 0.2f, 1.0f),   // Brown
+	Vector4(0.56f, 0.93f, 0.56f, 1.0f),// Light Green
+	Vector4(0.0f, 1.0f, 0.0f, 1.0f)    // Green
+};
 class RigidBody
 {
 public:
@@ -34,7 +48,7 @@ protected:
 	color couleur;
 	Vector3 dimensions, iniPos, limits = {500, 500, 500};
 	bool contactFlag = false;
-	bool message = false;
+	bool sendMessage = false;
 
 
 	// Físicas
@@ -57,8 +71,17 @@ public:
 	//Para el suikalike
 	void flag() { contactFlag = true; };
 	bool getContact() { return contactFlag; };
-	void activateMessage() { message = !message; };
-	bool sendMessage() { return message; };
+
+	void setCouleur(int newColor) { 
+		couleur = static_cast<color>(newColor);
+	};
+
+	//Quien va a mandar el mensaje
+	void activateMessage() { sendMessage = !sendMessage; };
+
+	bool getMessage(){ return sendMessage; };
+	//Para indicar a que fruta pasar
+	int sendMensaje() { return couleur+1; };
 
 	PxRigidActor* getActor() { return _actor; };
 
@@ -82,6 +105,7 @@ public:
 	};
 
 	bool integrate(double t) {
+		//std::cout<<getPos().y<<std::endl;
 		if (lifeTime > -100) lifeTime -= t;
 		if (lifeTime < 0 && lifeTime> -100) return false;
 		else if (!(getPos().y < limits.y + iniPos.y
