@@ -9,21 +9,19 @@ public:
             const physx::PxContactPair& cp = pairs[i];
 
             if (cp.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) {
-               
+                //printf("O: \n");
+                if (pairHeader.actors[0]->getType() == physx::PxActorType::eRIGID_DYNAMIC &&
+                    pairHeader.actors[1]->getType() == physx::PxActorType::eRIGID_DYNAMIC) {
+                    //printf("O:++ \n");
+                    if (SuikaInstance().reference.count(pairHeader.actors[0]) > 0 &&
+                        SuikaInstance().reference.count(pairHeader.actors[1]) > 0) {
+                        SuikaInstance().reference[pairHeader.actors[0]]->flag();
+                        SuikaInstance().reference[pairHeader.actors[1]]->flag();
+                        //printf("O:# \n");
+                    }
+                };
             }
         }
-
-        //for (PxU32 i = 0; i < nbPairs; i++) {
-        //    const PxContactPair& cp = pairs[i];
-        //    // Check if objects have collided
-        //    if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND) {
-        //        // Handle collision
-        //        // Example: Print collision information
-        //        const PxRigidActor* actor0 = pairHeader.actors[0];
-        //        const PxRigidActor* actor1 = pairHeader.actors[1];
-        //        printf("Collision detected between %s and %s\n", actor0->getName(), actor1->getName());
-        //    }
-        //}
     }
 
     virtual void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {

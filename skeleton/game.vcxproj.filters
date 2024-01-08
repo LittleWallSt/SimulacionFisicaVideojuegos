@@ -120,7 +120,11 @@
     <ClInclude Include="ProyectoSystem.h">
       <Filter>proyectoFinal</Filter>
     </ClInclude>
-    <ClInclude Include="suikaCallback.h" />
+    <ClInclude Include="suikaCallback.h">
+      <Filter>proyectoFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="SuikaSingleton.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

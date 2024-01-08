@@ -25,6 +25,7 @@ class RigidBody
 public:
 	
 protected:
+	PxRigidActor* _actor = nullptr;
 	PxRigidDynamic* _rDynamic = nullptr;
 	RenderItem* _renderItem;
 	double lifeTime;
@@ -58,6 +59,8 @@ public:
 	bool getContact() { return contactFlag; };
 	void activateMessage() { message = !message; };
 	bool sendMessage() { return message; };
+
+	PxRigidActor* getActor() { return _actor; };
 
 	Vector3 getPos() {
 		return _rDynamic->getGlobalPose().p;

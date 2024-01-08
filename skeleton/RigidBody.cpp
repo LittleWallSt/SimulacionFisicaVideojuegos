@@ -45,7 +45,7 @@ RigidBody::RigidBody(PxScene* scene, PxPhysics* phys, Vector3 p, Vector4 colour,
 	_rDynamic->setAngularVelocity({ 0,0,0 });
 
 	lifeTime = lTime;
-	
+	_actor = _rDynamic;
 	//Le añadimos la forma
 	_rDynamic->attachShape(*forma);
 
@@ -56,9 +56,6 @@ RigidBody::RigidBody(PxScene* scene, PxPhysics* phys, Vector3 p, Vector4 colour,
 	//Lo agregamos a la escena
 	scene->addActor(*_rDynamic);
 	_renderItem = new RenderItem(forma, _rDynamic, colour);
-
-		
-	
 }
 
 RigidBody::~RigidBody() {

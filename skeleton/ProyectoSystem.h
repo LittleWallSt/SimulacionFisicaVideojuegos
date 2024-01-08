@@ -14,7 +14,7 @@
 #include "FireworkGenerator.h"
 #include "ForceGenerator.h"
 #include "ParticleForceRegistry.h"
-
+#include "SuikaSingleton.h"
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -75,6 +75,7 @@ protected:
 	void generateRB() {
 		RigidBody* fruit = new RigidBody(_scene, _physics, spawnPos, { 1,0,0,1 }, { 0, -10, 0 }, { 10, 10, 10 }, 10, -100.0f, Sphere);
 		_rigids.push_back(fruit);
+		SuikaInstance().reference.insert({ fruit->getActor(), fruit });
 	}
 
 	void addGen(RigidBodyForceGen* gen) {

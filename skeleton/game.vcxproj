@@ -297,7 +297,9 @@
     <ClInclude Include="RigidBodyForceRegistry.h" />
     <ClInclude Include="RigidBodyGenerator.h" />
     <ClInclude Include="RigidBodySystem.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="suikaCallback.h" />
+    <ClInclude Include="SuikaSingleton.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -38,6 +38,11 @@ void ProyectoSystem::update(double t) {
 	//Rigidbodies
 	for (auto gen : _RBGens) {
 		list<RigidBody*> rb = gen->generateRigidBodies(t);
+		for (auto rigids : rb) {
+			//Los añadimos a un mapa para luego poder recuperarlos en las colisiones
+			SuikaInstance().reference.insert({ rigids->getActor(), rigids });
+			
+		}
 		if (!rb.empty()) {
 			_rigids.splice(_rigids.end(), rb);
 		}
@@ -63,7 +68,8 @@ void ProyectoSystem::update(double t) {
 
 	auto it = _rigids.begin();
 	while (it != _rigids.end()) {
-		if (!(*it)->integrate(t)) {
+		if (!(*it)->integrate(t)|| (*it)->getContact()) {
+			SuikaInstance().reference.erase((*it)->getActor());
 			_registry.deleteRBReg(*it);
 			auto nextIt = std::next(it);
 			delete* it;
