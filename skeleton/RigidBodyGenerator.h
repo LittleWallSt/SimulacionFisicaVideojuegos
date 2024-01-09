@@ -72,6 +72,9 @@ public:
 	virtual ~GaussianRigidBodyGen();
 
 	virtual list<RigidBody*> generateRigidBodies(double t);
+	void setNewPos(Vector3 pos) {
+
+	}
 };
 #pragma endregion
 
