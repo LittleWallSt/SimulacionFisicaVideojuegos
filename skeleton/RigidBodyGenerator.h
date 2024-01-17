@@ -66,14 +66,24 @@ protected:
 	normal_distribution<float>* pX = nullptr;
 	normal_distribution<float>* pY;
 	normal_distribution<float>* pZ;
-
+	
 public:
 	GaussianRigidBodyGen(string nombre, RigidBody* modelo, Vector3 p, Vector3 va = Vector3(0), float f = 0, bool st = true, Vector3 stOs = Vector3(0));
 	virtual ~GaussianRigidBodyGen();
 
 	virtual list<RigidBody*> generateRigidBodies(double t);
 	void setNewPos(Vector3 pos) {
+		this->pos = pos;
+		newVars();
+	}
 
+	void newVars() {
+		// Distribuciones de posición
+
+		pX = new normal_distribution<float>(pos.x, var.x / 2.0f);
+		pY = new normal_distribution<float>(pos.y, var.y / 2.0f);
+		pZ = new normal_distribution<float>(pos.z, var.z / 2.0f);
+		//std::cout << iniPos.x << "!" << std::endl;
 	}
 };
 #pragma endregion

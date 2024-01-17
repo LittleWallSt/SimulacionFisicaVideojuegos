@@ -2,6 +2,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "RenderItems/particle.h"
+
 #include <iostream>
 using namespace physx;
 enum color {
@@ -34,6 +35,8 @@ const std::vector<Vector4> fruitColors{
 	Vector4(0.56f, 0.93f, 0.56f, 1.0f),// Light Green
 	Vector4(0.0f, 1.0f, 0.0f, 1.0f)    // Green
 };
+
+
 class RigidBody
 {
 public:
@@ -113,7 +116,12 @@ public:
 			&& getPos().x < limits.x + iniPos.x
 			&& getPos().x > -limits.x + iniPos.x
 			&& getPos().z < limits.z + iniPos.z
-			&& getPos().z > -limits.z + iniPos.z)) return false;
+			&& getPos().z > -limits.z + iniPos.z)) {
+			//SuikaInstance().gameOver = true;
+			std::cout << "GAMEOVER!" << std::endl;
+			exit(0);
+			return false;
+		}
 		return true;
 	}
 

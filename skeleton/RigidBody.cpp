@@ -1,5 +1,6 @@
 #include "RigidBody.h"
 
+
 //RigidBody con lifeTime por copia
 RigidBody::RigidBody(PxRigidDynamic* rigid, double time, Vector4 colour) {
 	lifeTime = time;

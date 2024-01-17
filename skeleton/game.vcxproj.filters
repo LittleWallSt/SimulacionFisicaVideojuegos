@@ -55,6 +55,9 @@
       <Filter>proyectoFinal</Filter>
     </ClCompile>
     <ClCompile Include="RenderUtils.cpp" />
+    <ClCompile Include="SuikaSingleton.cpp">
+      <Filter>proyectoFinal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -123,8 +126,10 @@
     <ClInclude Include="suikaCallback.h">
       <Filter>proyectoFinal</Filter>
     </ClInclude>
-    <ClInclude Include="SuikaSingleton.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SuikaSingleton.h">
+      <Filter>proyectoFinal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

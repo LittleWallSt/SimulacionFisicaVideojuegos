@@ -19,6 +19,7 @@ void RigidBodyExplosionGen::updateForce(RigidBody* rb, double t)
 	//Fuerza de la explosion
 	Vector3 f = (_K / pow(r, 2)) * (rb->getPos() - _centre) * exp(-elapsedTime / duration);
 	rb->addForce(f);
+	
 
 }
 

@@ -26,7 +26,7 @@ public:
 		pX = new normal_distribution<float>(iniPos.x, meanVar.x / 2.0f);
 		pY = new normal_distribution<float>(iniPos.y, meanVar.y / 2.0f);
 		pZ = new normal_distribution<float>(iniPos.z, meanVar.z / 2.0f);
-		std::cout << iniPos.x << "!" << std::endl;
+		//std::cout << iniPos.x << "!" << std::endl;
 	}
 	// Método abstracto
 	virtual list<particle*> generateParticles();

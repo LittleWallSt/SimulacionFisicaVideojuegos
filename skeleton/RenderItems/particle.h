@@ -107,6 +107,7 @@ public:
 	inline void setAcceleration(Vector3 a) { accl = a; }
 	
 	inline void setColor(Vector4 c) { color = c; }
+	inline void setColor2(Vector4 c) { color = c; renderItem->color = c; }
 	inline void setShape(PxShape* s) { shape = s; }
 	inline Vector3 getScale() { return scale; }
 	inline float getVolume() { return scale.x * scale.y * scale.z; }

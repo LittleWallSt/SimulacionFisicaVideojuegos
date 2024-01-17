@@ -64,9 +64,11 @@ public:
 					//std::cout << "!!!" << std::endl;
 	};
 	Vector3 getCenter() { return _center; };
+	void setActive() { active = !active; };
 protected:
 	Vector3 _center;
 	float _Kt;
+	bool active = true;
 };
 
 
@@ -75,17 +77,20 @@ class ExplosionGen : public ForceGen
 public:
 	ExplosionGen(float radio, float intensidad, Vector3 centro, float d) :
 		_R(radio), _K(intensidad), _centre(centro), duration(d), maxRadius(radio) {
-		
+		iniDuration = d;
 	};
 
 	virtual void updateForce(particle* particle, double t);
 
+	void updateCenter(Vector3 newCenter) { _centre = newCenter; };
+	void refreshDuration() { duration = iniDuration; alive = true; };
 
 
 protected:
 	float _R; // radio de la explosión 
 	float _K; // intensidad 
 	float duration;
+	float iniDuration;
 	Vector3 _centre; // centro
 
 	float maxRadius;

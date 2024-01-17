@@ -12,6 +12,9 @@ ProyectoSystem::ProyectoSystem(PxScene* scene, PxPhysics* phys) {
 	
 	
 	tornado = new TornadoForceGen(spawnPos, 1, 1, 1);
+	RigidBody* fruit = new RigidBody(_scene, _physics, spawnPos - Vector3(0, 500, 0), fruitColors[red], {0, -10, 0}, {10, 10, 10}, 10, -100.0f, Sphere);
+	
+	//gen = new GaussianRigidBodyGen("FruitGenerator", fruit, spawnPos, { 0.1,0.1,0.1 }, 1, false);
 	
 }
 
@@ -34,6 +37,7 @@ ProyectoSystem::~ProyectoSystem() {
 
 void ProyectoSystem::update(double t) {
 	
+	//timer += t;
 #pragma region rigidbodies
 	//Rigidbodies
 	for (auto gen : _RBGens) {
@@ -66,6 +70,7 @@ void ProyectoSystem::update(double t) {
 				generateNextFruit(rigid->sendMensaje(), rigid->getPos());
 			}
 		}
+		//if (rigid->getPos().y < -5) SuikaInstance().gameOver = true;
 		
 	}
 
@@ -98,14 +103,16 @@ void ProyectoSystem::update(double t) {
 	for (auto it = _particles.begin(); it != _particles.end(); it++) {
 		//si hay una explosion por hacerlo mas dramatico
 		/*if (explosion) {
-			_registry.addReg(6, *it);
+			_registryP.addReg(expl, *it);
 		}*/
 		if (!(*it)->integrate(t)) _particlesToDelete.push_back(it);
 
 	}
 
 	//si ya se ha producido la explosion paramos
-	//if (explosion) explosion = false;
+	//if (explosion) { explosion = false;
+	//	//tornado->setActive();
+	//}
 
 	_registryP.updateForces(t);
 
@@ -152,7 +159,7 @@ void ProyectoSystem::update(double t) {
 
 void ProyectoSystem::demo() {
 	floor = _physics->createRigidStatic(physx::PxTransform({ 0, 0, 0 }));
-	PxShape* shape = CreateShape(physx::PxBoxGeometry(Vector3(2500, 1, 2500)));
+	PxShape* shape = CreateShape(physx::PxBoxGeometry(Vector3(100, 5, 50)));
 	floor->attachShape(*shape);
 	_scene->addActor(*floor);
 	floorRenderItem = new RenderItem(shape, floor, { 0.3, 0.3, 0.3, 0 });
@@ -181,13 +188,13 @@ void ProyectoSystem::demo() {
 	frontPlane->attachShape(*shap);
 	_scene->addActor(*frontPlane);
 	//frontRender = new RenderItem(shap, frontPlane, { 0, 0, 1, 0 });
-	particle* model = new particle(100, Vector3(0), Vector3(0, -100.0f, 0), Vector3(0, 0, 0), 0.2, Vector4(1, 1, 0, 0), CreateShape(PxSphereGeometry(0.1)));
+	model = new particle(100, Vector3(0), Vector3(0, -100.0f, 0), Vector3(0, 0, 0), 0.2, fruitColors[c], CreateShape(PxSphereGeometry(0.5)));
 
 	//Indicador de donde se generan las "frutas"
 	spawnPoint = new GaussianParticleGenerator(spawnPos, Vector3(1, 1, 1), 0.3, model, 3, false);
 
 	spawnPoint->setRandomLifeTimeRange(2);
-	spawnPoint->setRandomColor();
+	//spawnPoint->setRandomColor();
 	spawnPoint->setMinimumLifeTime(2);
 	spawnPoint->setRandomMass();
 	spawnPoint->setMinimumMass(1);
@@ -195,4 +202,38 @@ void ProyectoSystem::demo() {
 	spawnPoint->setName("Avispero");
 	spawnPoint->setActive();
 	_particle_generators.push_back(spawnPoint);
+
+	//expl = new ExplosionGen(100, 100000, spawnPos, 5);
+
+	buoyancy_liquid = new particle(0, { -100, 0, 0 }, { 0,0,0 }, { 0,0,0 }, -300, fruitColors[highestColor], CreateShape(PxBoxGeometry(20, 2, 20)));
+	buoyancy_particle = new  particle(100, { -100, 20, 0 }, Vector3(0, 0.0f, 0), Vector3(0, 0, 0), -300, fruitColors[highestColor], CreateShape(PxBoxGeometry(3, 3, 3)));
+	buoyancy_particle->setDamping(0.99);
+	buoyancy_particle->setScale({ 3,3,3 });
+
+
+
+	DragForceGen* drag = new DragForceGen(1.5f, 0);
+	BuoyancyForceGen* bg = new BuoyancyForceGen(5, buoyancy_particle->getVolume(), 100, buoyancy_liquid);
+	GravForceGen* gg = new GravForceGen(Vector3(0, -9.8, 0), 0);
+
+	buoyancy_gen = bg;
+
+	_registryP.addReg(bg, buoyancy_particle);
+	_registryP.addReg(gg, buoyancy_particle);
+	_registryP.addReg(drag, buoyancy_particle);
+
+	_particles.push_back(buoyancy_particle);
+
+	buoyancy_liquid2 = new particle(0, { 100, 0, 0 }, { 0,0,0 }, { 0,0,0 }, -300, fruitColors[highestColor], CreateShape(PxBoxGeometry(20, 2, 20)));
+	buoyancy_particle2 = new  particle(100, { 100, 20, 0 }, Vector3(0, 0.0f, 0), Vector3(0, 0, 0), -300, fruitColors[highestColor], CreateShape(PxBoxGeometry(3, 3, 3)));
+	buoyancy_particle2->setDamping(0.99);
+	buoyancy_particle2->setScale({ 3,3,3 });
+
+	_registryP.addReg(bg, buoyancy_particle2);
+	_registryP.addReg(gg, buoyancy_particle2);
+	_registryP.addReg(drag, buoyancy_particle2);
+
+	_particles.push_back(buoyancy_particle2);
+
+	fireworkGen = new FireworkGenerator("Fireworks...", Vector3(10, 30, 10));
 }

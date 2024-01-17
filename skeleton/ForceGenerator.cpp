@@ -75,15 +75,17 @@ void DragForceGen::updateForce(particle* particle, double duration)
 
 void TornadoForceGen::updateForce(particle* particle, double duration)
 {
-	
+	if (active) {
+		Vector3 p = particle->getPos();
+
+		//la velocidad de la particula dependera de donde se ubique con respecto al centro del generador de fuerzas
+		_windVel = _Kt * Vector3(origin.z - p.z, 50 + origin.y - p.y, p.x - origin.x);
+
+		//usamos el updateforce del viento con el _windVel modificado
+		WindForceGen::updateForce(particle, t);
+	}
 	//sacamos la posicion de la particula
-	Vector3 p = particle->getPos();
-
-	//la velocidad de la particula dependera de donde se ubique con respecto al centro del generador de fuerzas
-	_windVel = _Kt * Vector3(origin.z - p.z, 50 + origin.y - p.y, p.x - origin.x);
-
-	//usamos el updateforce del viento con el _windVel modificado
-	WindForceGen::updateForce(particle, t);
+	
 }
 
 void ExplosionGen::updateForce(particle* particle, double t)

@@ -98,7 +98,6 @@ void stepPhysics(bool interactive, double t)
 	//pSys->update(t);
 	//rbSys->update(t);
 	prSys->update(t);
-
 }
 
 // Function to clean data

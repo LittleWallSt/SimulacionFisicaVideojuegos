@@ -14,6 +14,8 @@ public:
 	
 	std::unordered_map<physx::PxRigidActor*, RigidBody*> reference;
 
+	bool gameOver = false;
+
 };
 
 inline SuikaSingleton& SuikaInstance() { return *SuikaSingleton::instance(); };
